@@ -1,0 +1,106 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>NoClass — MITS Gwalior</title>
+  <link rel="stylesheet" href="style.css">
+</head>
+<body>
+
+  <!-- TOP NAV BAR -->
+  <header class="navbar">
+    <h1 class="logo">NoClass</h1>
+    <p class="tagline">MITS Gwalior · A Block</p>
+  </header>
+
+  <!-- MAIN CONTENT AREA -->
+  <main class="container">
+
+    <!-- DATE & TIME PICKER -->
+    <section class="card" id="search-section">
+      <h2>Find Free Classrooms</h2>
+      <label for="date-input">Select Date</label>
+      <input type="date" id="date-input">
+      <label for="time-input">Select Time</label>
+      <input type="time" id="time-input">
+      <button id="search-btn">Check Availability</button>
+    </section>
+
+    <!-- RESULTS AREA -->
+    <section id="results-section">
+      <h2 id="results-title"></h2>
+      <div id="results-container">
+        <!-- Free rooms will appear here -->
+      </div>
+    </section>
+
+    <!-- REPORTS FOR SELECTED DATE -->
+<section id="reports-section" style="display:none;">
+  <h2 id="reports-title">Recent Reports</h2>
+  <div id="reports-container"></div>
+</section>
+
+    <!-- TEACHER SEARCH -->
+<section class="card" id="teacher-section">
+  <h2>Find a Teacher</h2>
+  <label for="teacher-input">Teacher Name</label>
+  <input type="text" id="teacher-input" placeholder="e.g. shradhha dubey">
+  <button id="teacher-btn">Find Teacher</button>
+</section>
+
+<!-- TEACHER RESULTS -->
+<section id="teacher-results-section">
+  <h2 id="teacher-results-title"></h2>
+  <div id="teacher-results-container"></div>
+</section>
+
+<!-- REPORT AN ISSUE -->
+<section class="card" id="report-section">
+  <h2>Report an Issue</h2>
+  <label for="report-room">Room</label>
+  <select id="report-room"></select>
+  <label for="report-date">Date</label>
+  <input type="date" id="report-date">
+  <label for="report-type">What happened?</label>
+  <select id="report-type">
+    <option value="cancelled">Class Cancelled</option>
+    <option value="absent">Teacher Absent</option>
+    <option value="room-changed">Room Changed</option>
+  </select>
+  <label for="report-note">Note (optional)</label>
+  <input type="text" id="report-note" placeholder="e.g. moved to M203">
+  <button id="report-btn">Submit Report</button>
+  <p id="report-status" class="msg" style="display:none;"></p>
+</section>
+
+<!-- LOST & FOUND -->
+<section class="card" id="lostfound-section">
+  <h2>Lost & Found</h2>
+  <label for="lf-room">Room</label>
+  <select id="lf-room"></select>
+  <label for="lf-type">Type</label>
+  <select id="lf-type">
+    <option value="lost">Lost Something</option>
+    <option value="found">Found Something</option>
+  </select>
+  <label for="lf-desc">Description</label>
+  <input type="text" id="lf-desc" placeholder="e.g. blue water bottle near window">
+  <button id="lf-btn">Post</button>
+  <p id="lf-status" class="msg" style="display:none;"></p>
+</section>
+
+<!-- LOST & FOUND FEED -->
+<section id="lostfound-results-section">
+  <h2>Recent Lost & Found</h2>
+  <div id="lostfound-results-container"></div>
+</section>
+
+  </main>
+
+  <!-- Firebase -->
+  <script type="module" src="firebase-config.js"></script>
+  <script type="module" src="app.js"></script>
+
+</body>
+</html>
