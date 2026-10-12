@@ -2,6 +2,15 @@
 import { db } from "./firebase-config.js";
 import { collection, getDocs, addDoc, query, where, orderBy, limit } from "https://www.gstatic.com/firebasejs/10.12.2/firebase-firestore.js";
 
+function escapeHTML(value) {
+  return String(value ?? "")
+    .replace(/&/g, "&amp;")
+    .replace(/</g, "&lt;")
+    .replace(/>/g, "&gt;")
+    .replace(/"/g, "&quot;")
+    .replace(/'/g, "&#39;");
+}
+
 // ===== GRAB HTML ELEMENTS =====
 const dateInput = document.getElementById("date-input");
 const timeInput = document.getElementById("time-input");
@@ -107,8 +116,8 @@ async function showReportsForDate(selectedDate) {
     const typeLabels = { cancelled: "🚫 Class Cancelled", absent: "👤 Teacher Absent", "room-changed": "🔁 Room Changed" };
     reportsContainer.innerHTML = reports.map(r => `
       <div class="report-badge">
-        <div class="room-name">${r.roomId} — ${typeLabels[r.type] || r.type}</div>
-        ${r.note ? `<div class="report-note">${r.note}</div>` : ""}
+        <div class="room-name">${escapeHTML(r.roomId)} — ${typeLabels[r.type] || escapeHTML(r.type)}</div>
+        ${r.note ? `<div class="report-note">${escapeHTML(r.note)}</div>` : ""}
       </div>
     `).join("");
   } catch (error) {
@@ -343,8 +352,8 @@ async function showRecentLostFound() {
 
     lfResultsContainer.innerHTML = posts.map(p => `
       <div class="report-badge">
-        <div class="room-name">${p.type === "lost" ? "🔍 Lost" : "📦 Found"} — ${p.roomId}</div>
-        <div class="report-note">${p.description}</div>
+        <div class="room-name">${p.type === "lost" ? "🔍 Lost" : "📦 Found"} — ${escapeHTML(p.roomId)}</div>
+        <div class="report-note">${escapeHTML(p.description)}</div>
       </div>
     `).join("");
   } catch (error) {

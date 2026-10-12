@@ -1,204 +1,256 @@
+/* ===== FONT ===== */
+@import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap');
+
 /* ===== RESET & BASE ===== */
 * {
-    margin: 0;
-    padding: 0;
-    box-sizing: border-box;
-  }
-  
-  body {
-    font-family: 'Segoe UI', sans-serif;
-    background-color: #0f0f0f;
-    color: #f0f0f0;
-    min-height: 100vh;
-  }
-  
-  /* ===== NAVBAR ===== */
-  .navbar {
-    background-color: #1a1a1a;
-    padding: 16px 20px;
-    border-bottom: 1px solid #2a2a2a;
-    position: sticky;
-    top: 0;
-    z-index: 100;
-  }
-  
-  .logo {
-    font-size: 22px;
-    font-weight: 700;
-    color: #ffffff;
-    letter-spacing: 1px;
-  }
-  
-  .tagline {
-    font-size: 12px;
-    color: #888;
-    margin-top: 2px;
-  }
-  
-  /* ===== CONTAINER ===== */
-  .container {
-    padding: 20px 16px;
-    max-width: 480px;
-    margin: 0 auto;
-  }
-  
-  /* ===== CARD ===== */
-  .card {
-    background-color: #1a1a1a;
-    border: 1px solid #2a2a2a;
-    border-radius: 12px;
-    padding: 20px;
-    margin-bottom: 20px;
-  }
-  
-  .card h2 {
-    font-size: 16px;
-    font-weight: 600;
-    margin-bottom: 16px;
-    color: #ffffff;
-  }
-  
-  /* ===== FORM ELEMENTS ===== */
-  label {
-    display: block;
-    font-size: 12px;
-    color: #888;
-    margin-bottom: 6px;
-    text-transform: uppercase;
-    letter-spacing: 0.5px;
-  }
-  
-  input[type="date"],
-  input[type="time"] {
-    width: 100%;
-    padding: 12px;
-    background-color: #0f0f0f;
-    border: 1px solid #2a2a2a;
-    border-radius: 8px;
-    color: #f0f0f0;
-    font-size: 15px;
-    margin-bottom: 16px;
-    outline: none;
-  }
-  
-  input[type="date"]:focus,
-  input[type="time"]:focus {
-    border-color: #555;
-  }
-  
-  /* ===== BUTTON ===== */
-  button {
-    width: 100%;
-    padding: 14px;
-    background-color: #ffffff;
-    color: #0f0f0f;
-    border: none;
-    border-radius: 8px;
-    font-size: 15px;
-    font-weight: 600;
-    cursor: pointer;
-  }
-  
-  button:active {
-    opacity: 0.85;
-  }
-  
-  /* ===== RESULTS ===== */
-  #results-section h2 {
-    font-size: 14px;
-    color: #888;
-    margin-bottom: 12px;
-    text-transform: uppercase;
-    letter-spacing: 0.5px;
-  }
-  
-  .room-card {
-    background-color: #1a1a1a;
-    border: 1px solid #2a2a2a;
-    border-radius: 10px;
-    padding: 16px;
-    margin-bottom: 10px;
-    display: flex;
-    align-items: center;
-    gap: 12px;
-  }
-  
-  .room-icon {
-    font-size: 22px;
-  }
-  
-  .room-name {
-    font-size: 16px;
-    font-weight: 600;
-    color: #ffffff;
-  }
-  
-  .room-status {
-    font-size: 12px;
-    color: #4caf50;
-    margin-top: 2px;
-  }
-  
-  /* ===== STATUS MESSAGES ===== */
-  .msg {
-    text-align: center;
-    color: #555;
-    font-size: 14px;
-    padding: 30px 0;
-  }
-  
-  .loading {
-    text-align: center;
-    color: #888;
-    font-size: 14px;
-    padding: 30px 0;
-  }
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+}
 
-  input[type="text"] {
-    width: 100%;
-    padding: 12px;
-    background-color: #0f0f0f;
-    border: 1px solid #2a2a2a;
-    border-radius: 8px;
-    color: #f0f0f0;
-    font-size: 15px;
-    margin-bottom: 16px;
-    outline: none;
-  }
-  
-  input[type="text"]:focus {
-    border-color: #555;
-  }
+body {
+  font-family: 'Inter', 'Segoe UI', sans-serif;
+  background-color: #0a0a0a;
+  color: #f0f0f0;
+  min-height: 100vh;
+  -webkit-font-smoothing: antialiased;
+}
 
-  select {
-    width: 100%;
-    padding: 12px;
-    background-color: #0f0f0f;
-    border: 1px solid #2a2a2a;
-    border-radius: 8px;
-    color: #f0f0f0;
-    font-size: 15px;
-    margin-bottom: 16px;
-    outline: none;
-  }
-  
-  .report-badge {
-    background-color: #1a1a1a;
-    border: 1px solid #2a2a2a;
-    border-left: 3px solid #f0a500;
-    border-radius: 8px;
-    padding: 12px 16px;
-    margin-bottom: 10px;
-  }
-  
-  .report-badge .room-name {
-    color: #f0a500;
-    font-size: 15px;
-    font-weight: 600;
-  }
-  
-  .report-badge .report-note {
-    font-size: 13px;
-    color: #aaa;
-    margin-top: 4px;
-  }
+/* ===== NAVBAR ===== */
+.navbar {
+  background-color: rgba(20, 20, 20, 0.9);
+  backdrop-filter: blur(10px);
+  padding: 18px 20px;
+  border-bottom: 1px solid #1f1f1f;
+  position: sticky;
+  top: 0;
+  z-index: 100;
+}
+
+.logo {
+  font-size: 22px;
+  font-weight: 700;
+  color: #ffffff;
+  letter-spacing: 0.3px;
+}
+
+.logo::before {
+  content: "";
+  display: inline-block;
+  width: 8px;
+  height: 8px;
+  border-radius: 50%;
+  background: #6C63FF;
+  margin-right: 8px;
+  box-shadow: 0 0 8px #6C63FF;
+}
+
+.tagline {
+  font-size: 12px;
+  color: #777;
+  margin-top: 3px;
+  margin-left: 16px;
+}
+
+/* ===== CONTAINER ===== */
+.container {
+  padding: 20px 16px 60px;
+  max-width: 480px;
+  margin: 0 auto;
+}
+
+/* ===== CARD ===== */
+.card {
+  background-color: #141414;
+  border: 1px solid #1f1f1f;
+  border-radius: 14px;
+  padding: 20px;
+  margin-bottom: 24px;
+}
+
+.card h2 {
+  font-size: 15px;
+  font-weight: 600;
+  margin-bottom: 16px;
+  color: #ffffff;
+  display: flex;
+  align-items: center;
+  gap: 8px;
+}
+
+.card h2::before {
+  content: "";
+  width: 3px;
+  height: 14px;
+  background: #6C63FF;
+  border-radius: 2px;
+}
+
+/* ===== FORM ELEMENTS ===== */
+label {
+  display: block;
+  font-size: 11px;
+  color: #777;
+  margin-bottom: 6px;
+  text-transform: uppercase;
+  letter-spacing: 0.6px;
+  font-weight: 500;
+}
+
+input[type="date"],
+input[type="time"],
+input[type="text"],
+select {
+  width: 100%;
+  padding: 12px 14px;
+  background-color: #0a0a0a;
+  border: 1px solid #262626;
+  border-radius: 9px;
+  color: #f0f0f0;
+  font-size: 14px;
+  font-family: inherit;
+  margin-bottom: 16px;
+  outline: none;
+  transition: border-color 0.15s ease;
+}
+
+input[type="date"]:focus,
+input[type="time"]:focus,
+input[type="text"]:focus,
+select:focus {
+  border-color: #6C63FF;
+}
+
+select {
+  cursor: pointer;
+}
+
+/* ===== BUTTON ===== */
+button {
+  width: 100%;
+  padding: 13px;
+  background-color: #6C63FF;
+  color: #ffffff;
+  border: none;
+  border-radius: 9px;
+  font-size: 14px;
+  font-weight: 600;
+  font-family: inherit;
+  cursor: pointer;
+  transition: transform 0.08s ease, opacity 0.15s ease;
+}
+
+button:hover {
+  opacity: 0.92;
+}
+
+button:active {
+  transform: scale(0.98);
+}
+
+button:disabled {
+  opacity: 0.4;
+  cursor: not-allowed;
+}
+
+/* ===== SECTION TITLES (results, teacher results, lost&found feed) ===== */
+#results-section h2,
+#teacher-results-section h2,
+#lostfound-results-section h2,
+#reports-title {
+  font-size: 12px;
+  color: #777;
+  margin-bottom: 12px;
+  text-transform: uppercase;
+  letter-spacing: 0.6px;
+  font-weight: 600;
+  padding-left: 2px;
+}
+
+#results-section,
+#teacher-results-section,
+#lostfound-results-section,
+#reports-section {
+  margin-bottom: 28px;
+}
+
+/* ===== ROOM / RESULT CARDS ===== */
+.room-card {
+  background-color: #141414;
+  border: 1px solid #1f1f1f;
+  border-radius: 11px;
+  padding: 14px 16px;
+  margin-bottom: 8px;
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  animation: fadeIn 0.25s ease both;
+}
+
+.room-icon {
+  font-size: 16px;
+  width: 34px;
+  height: 34px;
+  min-width: 34px;
+  border-radius: 50%;
+  background: #1f1f2e;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.room-name {
+  font-size: 14px;
+  font-weight: 600;
+  color: #ffffff;
+}
+
+.room-status {
+  font-size: 12px;
+  color: #4caf50;
+  margin-top: 2px;
+}
+
+@keyframes fadeIn {
+  from { opacity: 0; transform: translateY(4px); }
+  to { opacity: 1; transform: translateY(0); }
+}
+
+/* ===== STATUS MESSAGES ===== */
+.msg {
+  text-align: center;
+  color: #555;
+  font-size: 13px;
+  padding: 28px 0;
+}
+
+.loading {
+  text-align: center;
+  color: #888;
+  font-size: 13px;
+  padding: 28px 0;
+}
+
+/* ===== REPORT / LOST&FOUND BADGES ===== */
+.report-badge {
+  background-color: #141414;
+  border: 1px solid #1f1f1f;
+  border-left: 3px solid #f0a500;
+  border-radius: 10px;
+  padding: 12px 16px;
+  margin-bottom: 8px;
+  animation: fadeIn 0.25s ease both;
+}
+
+.report-badge .room-name {
+  color: #f0a500;
+  font-size: 13px;
+  font-weight: 600;
+}
+
+.report-badge .report-note {
+  font-size: 12px;
+  color: #999;
+  margin-top: 4px;
+  line-height: 1.4;
+}
