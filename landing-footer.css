@@ -1,0 +1,148 @@
+/* ================================================================
+   landing-footer.css  -  card footer with a faded NoClass wordmark
+   Load it LAST on index.html, after landing-light.css:
+     <link rel="stylesheet" href="landing-footer.css">
+   The footer is a dark card in both light and dark mode (like the app sidebar),
+   with one peach card, a link card, and a big wordmark that fades into the dark.
+   Undo: remove the <link> and restore the old <footer> markup.
+   ================================================================ */
+.footer { padding: 28px 0 28px; border-top: 0; background: transparent; }
+.footer .ft-shell {
+  --f-ink: #F2ECE8; --f-mute: rgba(242, 236, 232, .62); --f-line: rgba(255, 255, 255, .09);
+  position: relative; overflow: hidden; isolation: isolate; color: var(--f-ink);
+  padding: 24px 24px 0; border-radius: 32px; border: 1px solid rgba(255, 255, 255, .07);
+  background: radial-gradient(900px 340px at 85% 0%, rgba(224, 123, 91, .10), transparent 70%), #141211;
+}
+.ft-grid { display: grid; grid-template-columns: minmax(0, .85fr) minmax(0, 1.65fr); gap: 16px; }
+
+/* left: peach brand card */
+.ft-brand {
+  display: flex; flex-direction: column; justify-content: space-between; gap: 48px; min-height: 300px;
+  padding: 26px; border-radius: 24px; color: #1D1918;
+  background:
+    radial-gradient(120% 80% at 15% 0%, rgba(255, 255, 255, .38), transparent 60%),
+    linear-gradient(165deg, #F4B9A0 0%, #EB8E6A 55%, #E07B5B 100%);
+}
+.footer .ft-brand .nav-brand { color: #1D1918; }
+.footer .ft-brand .brand-mark { box-shadow: 0 0 0 1px rgba(29, 25, 24, .14); }
+.ft-tag { display: grid; gap: 2px; font-size: 16px; line-height: 1.4; }
+.ft-tag b { font-weight: 600; }
+.ft-tag span { color: rgba(29, 25, 24, .72); }
+
+/* right: link card */
+.ft-links {
+  position: relative; display: flex; flex-direction: column; justify-content: space-between; gap: 36px;
+  padding: 30px; border-radius: 24px; background: rgba(255, 255, 255, .045); border: 1px solid var(--f-line);
+}
+.ft-tile {
+  position: absolute; top: -18px; right: -12px; width: 68px; height: 68px; border-radius: 20px;
+  transform: rotate(9deg); box-shadow: 0 14px 30px -10px rgba(0, 0, 0, .6), 0 0 0 4px rgba(224, 123, 91, .35);
+  transition: transform .4s cubic-bezier(.2, .8, .2, 1);
+}
+.ft-links:hover .ft-tile { transform: rotate(-4deg) translateY(-3px); }
+.ft-cols { display: flex; flex-wrap: wrap; gap: 28px clamp(36px, 7vw, 96px); }
+.footer .ft-cols h3 { margin-bottom: 16px; font-family: var(--sans); font-size: 13px; font-weight: 500; letter-spacing: 0; text-transform: none; color: var(--f-mute); }
+.footer .ft-cols li + li { margin-top: 10px; }
+.footer .ft-cols a {
+  display: inline-block; font-size: 17px; font-weight: 500; letter-spacing: -.01em; color: var(--f-ink); text-decoration: none;
+  transition: color .18s ease, transform .18s ease;
+}
+.footer .ft-cols a:hover { color: #F2A98C; transform: translateX(3px); text-decoration: none; }
+.ft-bar { display: flex; flex-wrap: wrap; align-items: flex-end; justify-content: space-between; gap: 18px 24px; }
+.ft-legal { display: grid; gap: 4px; font-size: 12.5px; line-height: 1.5; color: var(--f-mute); max-width: 36ch; }
+.footer a.ft-cta {
+  display: inline-flex; align-items: center; gap: 16px; padding: 7px 7px 7px 18px; border-radius: 18px;
+  background: #0D0C0B; border: 1px solid rgba(255, 255, 255, .06); color: var(--f-mute); font-size: 14px; text-decoration: none;
+}
+.ft-go {
+  padding: 9px 16px; border-radius: 12px; background: #E8845F; color: #1D1918; font-weight: 600; font-size: 13px;
+  transition: background .18s ease, transform .15s ease;
+}
+.footer a.ft-cta:hover .ft-go { background: #F09A78; transform: translateX(2px); }
+
+/* giant wordmark: peach-tinted, fades down into the card and is cropped by it */
+.ft-mark {
+  margin: 6px -6px -.13em; text-align: center; white-space: nowrap; user-select: none; pointer-events: none;
+  font-family: var(--sans); font-weight: 600; font-size: clamp(64px, 18.2vw, 250px); line-height: .84; letter-spacing: -.055em;
+  background: linear-gradient(180deg, rgba(240, 154, 120, .34) 0%, rgba(240, 154, 120, .07) 68%, transparent 100%);
+  -webkit-background-clip: text; background-clip: text; color: transparent; -webkit-text-fill-color: transparent;
+  -webkit-mask-image: linear-gradient(180deg, #000 30%, transparent 96%); mask-image: linear-gradient(180deg, #000 30%, transparent 96%);
+}
+.ft-mark { transition: transform .9s cubic-bezier(.2, .7, .2, 1) .15s, opacity .9s ease .15s; }
+.motion .ft-shell:not(.is-in) .ft-mark { transform: translateY(46px); opacity: 0; }   /* drops in with the card */
+
+@media (max-width: 1000px) { .ft-grid { grid-template-columns: minmax(0, 1fr); } .ft-brand { min-height: 220px; } }
+@media (max-width: 560px) {
+  .footer .ft-shell { padding: 14px 14px 0; border-radius: 26px; }
+  .ft-links { padding: 24px 20px; } .ft-brand { padding: 22px; }
+  .ft-tile { width: 54px; height: 54px; border-radius: 16px; top: -12px; right: -6px; }
+  .footer a.ft-cta { width: 100%; justify-content: space-between; }
+}
+@media (max-width: 560px) {
+  .ft-mark {
+    font-size: 20vw; margin: 14px -4px -.1em;
+    background: linear-gradient(180deg, rgba(240, 154, 120, .5) 0%, rgba(240, 154, 120, .14) 75%, transparent 100%);
+    -webkit-background-clip: text; background-clip: text;
+    -webkit-mask-image: linear-gradient(180deg, #000 55%, transparent 100%); mask-image: linear-gradient(180deg, #000 55%, transparent 100%);
+  }
+}
+/* ---- credits inside the peach card ---- */
+.ft-credits { margin-top: auto; color: rgba(40, 20, 12, .92); }
+.ft-credits-label {
+  display: block; margin-bottom: 8px; font-size: 11.5px; font-weight: 600;
+  letter-spacing: .08em; text-transform: uppercase; color: rgba(40, 20, 12, .6);
+}
+.ft-people { margin: 0; padding: 0; list-style: none; border-top: 1px solid rgba(40, 20, 12, .16); }
+.ft-people li { display: grid; gap: 1px; padding: 9px 0; border-bottom: 1px solid rgba(40, 20, 12, .12); }
+.ft-people li:last-child { border-bottom: 0; padding-bottom: 0; }
+.ft-people strong { font-size: 15px; font-weight: 600; letter-spacing: -.01em; }
+.ft-people span { font-size: 12.5px; color: rgba(40, 20, 12, .66); font-variant-numeric: tabular-nums; }
+
+/* ---- project line + shining disclaimer pill ---- */
+.ft-legal { display: grid; gap: 10px; justify-items: start; }
+.ft-project { margin: 0; font-size: 12.5px; color: var(--ink-soft, rgba(255,255,255,.6)); }
+.ft-disclaimer {
+  position: relative; overflow: hidden; margin: 0;
+  display: inline-flex; align-items: center; gap: 8px;
+  padding: 7px 14px 7px 11px; border-radius: 999px;
+  font-size: 12.5px; font-weight: 500; line-height: 1.3;
+  color: var(--ink, #f2f2f2);
+  background: rgba(255, 255, 255, .05);
+  border: 1px solid rgba(233, 113, 79, .38);
+  box-shadow: inset 0 1px 0 rgba(255, 255, 255, .07), 0 0 18px -6px rgba(233, 113, 79, .45);
+  -webkit-backdrop-filter: blur(8px); backdrop-filter: blur(8px);
+}
+.ft-disclaimer svg { flex: none; color: #e9714f; }
+.ft-disclaimer::after {            /* the shine: a soft light sweeping across every few seconds */
+  content: ""; position: absolute; top: 0; bottom: 0; left: -60%; width: 45%;
+  background: linear-gradient(100deg, transparent, rgba(255, 255, 255, .22), transparent);
+  transform: skewX(-20deg);
+  animation: ftShine 4.5s ease-in-out infinite;
+  pointer-events: none;
+}
+@keyframes ftShine { 0%, 55% { left: -60%; } 100% { left: 130%; } }
+
+html[data-theme="light"] .ft-disclaimer { background: rgba(255, 255, 255, .7); color: #1a1a1a; }
+html[data-theme="light"] .ft-disclaimer::after { background: linear-gradient(100deg, transparent, rgba(233, 113, 79, .25), transparent); }
+
+@media (prefers-reduced-motion: reduce) { .ft-disclaimer::after { animation: none; display: none; } }
+/* bottom strip: legal text stacked on the left, CTA on the right */
+div.ft-bar {
+  display: grid;
+  grid-template-columns: minmax(0, 1fr) auto;
+  grid-template-rows: auto auto;
+  column-gap: 24px;
+  row-gap: 10px;
+  align-items: end;
+  justify-content: stretch;
+  margin-top: auto;
+}
+div.ft-bar .ft-project    { grid-column: 1; grid-row: 1; margin: 0; line-height: 1.4; }
+div.ft-bar .ft-disclaimer { grid-column: 1; grid-row: 2; justify-self: start; margin: 0; }
+div.ft-bar .ft-cta        { grid-column: 2; grid-row: 1 / span 2; align-self: end; justify-self: end; margin: 0; }
+
+@media (max-width: 760px) {
+  div.ft-bar { grid-template-columns: minmax(0, 1fr); }
+  div.ft-bar .ft-cta { grid-column: 1; grid-row: 3; justify-self: stretch; }
+}
+.ft-disclaimer { min-height: 32px; }

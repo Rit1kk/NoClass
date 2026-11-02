@@ -1,0 +1,81 @@
+/* ================================================================
+   myclass.css  -  "Choose your class" (home page card, app pill + sheet, My class screen)
+   Load it on BOTH index.html and app.html. Uses the app tokens, falling back to the home-page tokens.
+   ================================================================ */
+/* ---- shared picker ---- */
+.cp-title { font-size: 17px; font-weight: 600; letter-spacing: -.01em; }
+.cp-hint { margin-top: 4px; font-size: 14px; color: var(--ink-soft, var(--muted)); }
+.cp-row { display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); gap: 10px; margin: 14px 0; }
+.cp-f span { display: block; margin-bottom: 6px; font-size: 12px; font-weight: 500; color: var(--ink-soft, var(--muted)); }
+.cp-f select {
+  -webkit-appearance: none; appearance: none; width: 100%; height: 46px; padding: 0 38px 0 14px; border-radius: 14px;
+  border: 1px solid var(--hair-strong, var(--ring)); color: var(--ink); font: inherit; font-size: 15px; cursor: pointer;
+  background: var(--surf-2, var(--bg)) url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' fill='none' stroke='%238d8782' stroke-width='2' stroke-linecap='round' stroke-linejoin='round'%3E%3Cpath d='m6 9 6 6 6-6'/%3E%3C/svg%3E") no-repeat right 14px center / 16px;
+}
+.cp-f select:focus { outline: 2px solid var(--accent, var(--green)); outline-offset: 1px; }
+.cp-f select:disabled { opacity: .5; cursor: not-allowed; }
+.cp-f option { background: var(--surf, var(--bg)); color: var(--ink); }
+.cp-actions { display: flex; flex-wrap: wrap; gap: 10px; }
+.cp-save {
+  height: 46px; padding: 0 24px; border: 0; border-radius: 999px; background: var(--accent, var(--green)); color: #1D1918;
+  font: inherit; font-size: 15px; font-weight: 600; cursor: pointer; transition: filter .15s ease, transform .15s ease;
+}
+.cp-save:hover:not(:disabled) { filter: brightness(1.07); } .cp-save:active:not(:disabled) { transform: scale(.97); } .cp-save:disabled { opacity: .45; cursor: not-allowed; }
+.cp-change {
+  height: 46px; padding: 0 18px; border: 1px solid var(--hair-strong, var(--ring)); border-radius: 999px; background: transparent;
+  color: var(--ink); font: inherit; font-size: 14px; cursor: pointer;
+}
+.cp-change:hover { background: var(--surf-2, var(--soft)); }
+
+/* ---- home page card ---- */
+.classpick {
+  max-width: 640px; margin: 22px auto 0; padding: 20px 22px; border-radius: 22px; text-align: left;
+  background: var(--surf-2, var(--soft)); border: 1px solid var(--hair, var(--line));
+}
+.cp-done { display: flex; align-items: center; flex-wrap: wrap; gap: 14px; }
+.cp-check { display: grid; place-items: center; width: 34px; height: 34px; border-radius: 50%; background: rgba(111, 207, 151, .16); color: #4DB37E; font-weight: 700; }
+.cp-info { flex: 1; min-width: 160px; }
+.cp-class { font-size: 16px; font-weight: 600; }
+.cp-go {
+  display: inline-flex; align-items: center; height: 42px; padding: 0 18px; border-radius: 999px; text-decoration: none;
+  background: var(--accent, var(--green)); color: #1D1918; font-size: 14px; font-weight: 600;
+}
+.cp-done .cp-change { height: 42px; }
+@media (max-width: 560px) { .cp-row { grid-template-columns: minmax(0, 1fr); } .cp-go { flex: 1; justify-content: center; } }
+
+/* ---- app: header pill ---- */
+.class-pill {
+  pointer-events: auto; display: inline-flex; align-items: center; gap: 8px; height: 42px; padding: 0 16px; margin-left: 10px;
+  border-radius: 999px; border: 1px solid var(--hair, var(--line)); background: var(--glass, var(--surf-2)); color: var(--ink);
+  font: inherit; font-size: 13px; font-weight: 500; cursor: pointer; backdrop-filter: blur(18px) saturate(140%);
+}
+.class-pill svg { width: 16px; height: 16px; fill: none; stroke: currentColor; stroke-width: 1.8; stroke-linecap: round; stroke-linejoin: round; }
+.class-pill:hover { background: var(--surf-2); }
+.class-pill.is-empty { background: var(--accent); border-color: transparent; color: #1D1918; font-weight: 600; animation: cpPulse 2.4s ease-in-out 3; }
+@keyframes cpPulse { 50% { box-shadow: 0 0 0 6px rgba(224, 123, 91, .25); } }
+html[data-theme] .when-inner { flex-wrap: wrap; gap: 8px; }
+body.is-staff .class-pill { display: none; }
+@media (max-width: 900px) { .class-pill { margin-left: 0; width: 100%; justify-content: center; } }
+
+/* ---- app: My class screen + Updates + Teachers extras ---- */
+.cp-inline { display: grid; gap: 4px; max-width: 560px; }
+.cp-sub { margin-top: 22px; }
+.cp-chips { display: flex; flex-wrap: wrap; gap: 8px; margin-top: 4px; }
+.cp-chip {
+  padding: 8px 14px; border-radius: 999px; border: 1px solid var(--hair-strong); background: transparent; color: var(--ink);
+  font: inherit; font-size: 13px; cursor: pointer; transition: background .15s ease;
+}
+.cp-chip:hover { background: var(--surf-2); }
+.u-scope { margin: 0 0 12px; font-size: 13px; color: var(--ink-soft); }
+.u-scope b { color: var(--ink); font-weight: 600; }
+.u-scope button { padding: 0; border: 0; background: none; color: var(--accent-text, var(--accent)); font: inherit; cursor: pointer; text-decoration: underline; }
+.u-badge.mine { background: color-mix(in srgb, var(--accent) 16%, transparent); color: var(--accent-text, var(--accent)); }
+.t-tag { justify-self: start; padding: 1px 8px; border-radius: 999px; font-size: 11px; font-weight: 500; background: color-mix(in srgb, var(--accent) 16%, transparent); color: var(--accent-text, var(--accent)); }
+.t-tag.you { background: var(--free-bg); color: var(--free); }
+.t-slot.is-off { opacity: .6; } .t-slot.is-off .t-time { text-decoration: line-through; }
+.t-slot .t-off { color: var(--error); font-weight: 500; }
+.td-two { display: grid; grid-template-columns: 1.4fr 1fr 1fr; gap: 10px; }
+@media (max-width: 520px) { .td-two { grid-template-columns: 1fr 1fr; } .td-two .field:first-child { grid-column: 1 / -1; } }
+.td-btns { display: flex; flex-wrap: wrap; gap: 8px; }
+@media (prefers-reduced-motion: reduce) { .class-pill.is-empty { animation: none; } }
+

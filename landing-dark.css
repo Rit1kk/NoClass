@@ -1,0 +1,117 @@
+/* ================================================================
+   landing-dark.css  -  warm black + one peach accent for the landing page
+   Load it LAST, after landing.css:
+     <link rel="stylesheet" href="landing.css">
+     <link rel="stylesheet" href="landing-dark.css">
+   The page itself follows the visitor's system dark mode (as before);
+   the dashboard preview is always dark, so it is recoloured in both modes.
+   To undo: remove the <link>. Nothing in landing.css is modified.
+   ================================================================ */
+
+/* ---- 1. tokens (dark mode only) ---- */
+@media(prefers-color-scheme:dark) {
+    :root {
+        --bg: #111111;
+        --ink: #F2ECE8;
+        --muted: #A29E9B;
+        --line: #2B2726;
+        --soft: #1A1919;
+        --soft-2: #151414;
+        --ring: #47403D;
+        --green: #E07B5B;          /* the one accent (name kept so landing.js needs no change): peach, used by the hero dial and focus glow */
+        --ok: #D9CEC8;
+        --err: #F09494;
+        color-scheme: dark
+    }
+}
+
+/* ---- 2. dashboard preview mock-up: recoloured to match the new app (both modes) ---- */
+.demo-frame { background: #111111; }
+.demo-app { color: #F2ECE8; }
+.d-side { background: #1A1919; border-right: 1px solid #242120; }
+.d-nav li { color: #B3A7A1; }
+.d-nav li.is-on { background: #2B2726; color: #F2ECE8; }
+.d-when { background: #1A1919; border-bottom: 1px solid #242120; color: #B3A7A1; }
+.d-when b { color: #F2ECE8; }
+.d-stat { color: #B3A7A1; }
+.d-stat b { color: #E07B5B; }
+.d-list, .d-grid { border: 1px solid #332E2C; background: #1A1919; }
+.d-list li { border-bottom: 1px solid #242120; }
+.d-room { color: #F2ECE8; }
+.d-until { color: #B3A7A1; }
+.d-empty { color: #B3A7A1; }
+.d-row { border-top: 1px solid #242120; }
+.d-bar { background: #8B7A73; }
+.d-now { background: #F2ECE8; }
+.d-input { border: 1px solid #77615A; background: #111111; }
+.d-caret { background: #F2ECE8; }
+.d-result { border-top: 1px solid #332E2C; }
+.d-meta { color: #B3A7A1; }
+.d-notices { border-top: 1px solid #332E2C; }
+.d-notice { border-bottom: 1px solid #242120; }
+.d-notice p { color: #F2ECE8; }
+.d-tag { background: rgba(224, 201, 166, 0.14); color: #E0C9A6; }
+
+/* ---- 3. polish ---- */
+/* ============================================================
+   DARK POLISH (soft depth, hairline borders, one peach glow).
+   Lives at the end so it wins over the base rules. Delete this block to undo.
+   ============================================================ */
+@media (prefers-color-scheme: dark) {
+    :root {
+        --sans: 'Inter', 'IBM Plex Sans', system-ui, -apple-system, 'Segoe UI', sans-serif;
+        --hair: rgba(255, 255, 255, 0.07);
+        --hair-strong: rgba(255, 255, 255, 0.14);
+        --peach-grad: linear-gradient(180deg, #EE9172 0%, #DB6F4C 100%);
+        --peach-glow: rgba(224, 123, 91, 0.45);
+        --card: linear-gradient(180deg, #1C1A19 0%, #151312 100%);
+    }
+    body {
+        background: radial-gradient(1100px 620px at 50% -150px, rgba(224, 123, 91, 0.15), transparent 66%), var(--bg);
+        -webkit-font-smoothing: antialiased;
+    }
+    ::selection { background: rgba(242, 236, 232, 0.18); }
+
+    .hero h1, .section-head h2, .stat b {
+        background: linear-gradient(180deg, #FFFFFF 25%, #B5AAA3 130%);
+        -webkit-background-clip: text; background-clip: text; -webkit-text-fill-color: transparent;
+    }
+    .brand-mark { box-shadow: 0 0 0 1px var(--hair-strong); }
+
+    .pillx { background: rgba(255, 255, 255, 0.04); border-color: var(--hair-strong); box-shadow: 0 6px 20px -8px rgba(0, 0, 0, 0.6); }
+    .finder { border-color: var(--hair-strong); box-shadow: 0 10px 34px -12px rgba(0, 0, 0, 0.7); }
+    .finder::before { background: linear-gradient(90deg, #D9633F, #E07B5B, #F2A98C, #D9633F); background-size: 300% 100%; }
+    .finder:focus-within { border-color: rgba(224, 123, 91, 0.55); }
+    .finder:focus-within::before { opacity: 0.32; }
+    .finder-btn {
+        background: var(--peach-grad); color: #111111; font-weight: 600;
+        box-shadow: inset 0 1px 0 rgba(255, 255, 255, 0.28), 0 8px 22px -8px var(--peach-glow);
+        transition: filter 0.2s ease, transform 0.15s ease;
+    }
+    .finder-btn:hover { background: var(--peach-grad); filter: brightness(1.08); transform: translateY(-1px); }
+    .chip, .tags li { background: rgba(255, 255, 255, 0.03); border-color: var(--hair); }
+    .btn-google { background: rgba(255, 255, 255, 0.04); border-color: var(--hair-strong); }
+    .btn-google:hover { background: rgba(255, 255, 255, 0.08); border-color: rgba(255, 255, 255, 0.26); }
+
+    .feature {
+        background: var(--card); border: 1px solid var(--hair); border-radius: 22px;
+        box-shadow: inset 0 1px 0 rgba(255, 255, 255, 0.04);
+        transition: transform 0.25s cubic-bezier(0.2, 0.8, 0.2, 1), border-color 0.25s ease, box-shadow 0.25s ease;
+    }
+    .feature:hover {
+        transform: translateY(-3px); border-color: rgba(224, 123, 91, 0.42);
+        box-shadow: inset 0 1px 0 rgba(255, 255, 255, 0.05), 0 26px 50px -28px rgba(224, 123, 91, 0.5);
+    }
+    .feature:hover .f-link { color: var(--green); }
+
+    .section-alt { background: linear-gradient(180deg, rgba(255, 255, 255, 0.02), transparent); border-color: var(--hair); }
+    .coverage, .cov-row { border-color: var(--hair); }
+    .signin { background: var(--card); border-color: var(--hair); border-radius: 22px; box-shadow: inset 0 1px 0 rgba(255, 255, 255, 0.04), 0 34px 60px -38px rgba(0, 0, 0, 0.9); }
+
+    .demo-frame { border-color: var(--hair-strong); border-radius: 18px; box-shadow: 0 60px 120px -44px rgba(224, 123, 91, 0.24), 0 40px 90px -30px rgba(0, 0, 0, 0.8); }
+    .demo-chrome { background: rgba(255, 255, 255, 0.04); border-bottom-color: var(--hair); }
+    .demo-url { background: rgba(255, 255, 255, 0.04); border-color: var(--hair); }
+
+    .footer { background: transparent; border-top-color: var(--hair); }
+    .footer-bottom { border-top-color: var(--hair); }
+}

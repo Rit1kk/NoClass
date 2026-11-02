@@ -1,0 +1,50 @@
+/* noclass-glass.css
+   Subtle frosted-glass look for the date / time pills.
+   Loaded LAST in app.html so it only adds to the existing look. */
+
+/* ---------- dark theme (default) ---------- */
+:root {
+  --glass-bg: rgba(24, 24, 24, 0.55);
+  --glass-edge: rgba(255, 255, 255, 0.09);
+  --glass-shadow: 0 8px 24px rgba(0, 0, 0, 0.35);
+}
+
+/* ---------- light theme ---------- */
+:root[data-theme="light"] {
+  --glass-bg: rgba(255, 255, 255, 0.55);
+  --glass-edge: rgba(0, 0, 0, 0.07);
+  --glass-shadow: 0 8px 24px rgba(20, 60, 30, 0.14);
+}
+
+/* the pills: see-through background + soft blur of whatever is behind them */
+.whenbar .when-pill {
+  background: var(--glass-bg);
+  -webkit-backdrop-filter: blur(14px) saturate(2.4);
+  backdrop-filter: blur(14px) saturate(2.4);
+  border: 1px solid var(--glass-edge);
+  box-shadow: 0 1px 2px rgba(0, 0, 0, 0.12);
+}
+
+/* the shadow that lifts the pills off the page.
+   Browsers that support it fade it in as you scroll down;
+   others just show a very light shadow all the time. */
+@supports (animation-timeline: scroll()) {
+  .whenbar .when-pill {
+    animation: nc-glass-lift linear both;
+    animation-timeline: scroll(root);
+    animation-range: 0 90px;
+  }
+}
+
+@keyframes nc-glass-lift {
+  from { box-shadow: 0 0 0 rgba(0, 0, 0, 0); }
+  to   { box-shadow: var(--glass-shadow); }
+}
+
+/* people who asked their device for less motion get no animation */
+@media (prefers-reduced-motion: reduce) {
+  .whenbar .when-pill {
+    animation: none;
+    box-shadow: var(--glass-shadow);
+  }
+}

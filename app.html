@@ -1,0 +1,471 @@
+<!DOCTYPE html>
+<html lang="en" data-theme="dark">
+
+<head>
+  <meta charset="UTF-8">
+  <script>
+    (function () {
+      try {
+        var t = localStorage.getItem("noclass-theme");
+        if (t !== "light") t = "dark";
+        document.documentElement.setAttribute("data-theme", t);
+      } catch (e) { }
+    })();
+  </script>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>NoClass — Free classrooms at MITS Gwalior</title>
+  <meta name="description"
+    content="Find classrooms with no class scheduled and see where a teacher is scheduled, using the official MITS Gwalior timetable.">
+  <meta name="theme-color" content="#111111">
+  <link rel="icon"
+    href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 32 32'%3E%3Crect width='32' height='32' rx='6' fill='%23051F20'/%3E%3Ctext x='16' y='23' font-size='20' font-family='Georgia,serif' font-weight='700' text-anchor='middle' fill='%23DAF1DE'%3EN%3C/text%3E%3C/svg%3E">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link
+    href="https://fonts.googleapis.com/css2?family=IBM+Plex+Mono:wght@400;500;600&family=IBM+Plex+Sans:wght@400;500;600&family=Source+Serif+4:opsz,wght@8..60,600&display=swap&family=Inter:wght@400;500;600"
+    rel="stylesheet">
+  <link rel="stylesheet" href="style.css">
+  <link rel="stylesheet" href="sidebar.css">
+  <link rel="stylesheet" href="noclass-dark.css">
+  <link rel="stylesheet" href="noclass-light.css">
+  <link rel="stylesheet" href="noclass-ui.css">
+  <link rel="stylesheet" href="noclass-ui-2.css">
+  <link rel="stylesheet" href="staff.css">
+  <link rel="stylesheet" href="myclass.css">
+  <link rel="stylesheet" href="nc-select.css">
+  <link rel="stylesheet" href="noclass-glass.css">
+</head>
+
+<body data-screen="rooms">
+
+  <a class="skip-link" href="#main">Skip to content</a>
+
+  <!-- SIDEBAR (becomes a bottom tab bar on phones) -->
+  <button type="button" class="sb-toggle" id="sb-toggle" aria-label="Hide sidebar" aria-controls="sidebar"
+    aria-expanded="true">
+    <svg viewBox="0 0 16 16" width="16" height="16" aria-hidden="true">
+      <rect x="2" y="2.5" width="12" height="11" rx="2.5" fill="none" stroke="currentColor" stroke-width="1.5" />
+      <rect x="3.6" y="4" width="3.2" height="8" rx="1" fill="currentColor" />
+    </svg>
+  </button>
+
+  <nav class="sidebar" id="sidebar" aria-label="Main">
+    <a class="brand" href="index.html" aria-label="NoClass home">
+      <span class="brand-name">NoClass</span>
+      <span class="brand-sub">MITS Gwalior</span>
+    </a>
+    <ul class="nav-list">
+      <li class="nav-group">
+        <a class="nav-link" href="#rooms" data-screen="rooms"><span class="nav-idx">01</span><span
+            class="nav-label">Rooms</span></a>
+        <ul class="nav-sub-list">
+          <li><a class="nav-sub" href="#rooms" data-screen="rooms" data-target="free-heading">Free rooms</a></li>
+          <li><a class="nav-sub" href="#rooms" data-screen="rooms" data-target="grid-heading">Day view</a></li>
+        </ul>
+      </li>
+      <li class="nav-group">
+        <a class="nav-link" href="#teachers" data-screen="teachers"><span class="nav-idx">02</span><span
+            class="nav-label">Teachers</span></a>
+        <ul class="nav-sub-list">
+          <li><a class="nav-sub" href="#teachers" data-screen="teachers" data-target="teacher-form">Search</a></li>
+          <li><a class="nav-sub" href="#teachers" data-screen="teachers"
+              data-target="teacher-results-container">Results</a></li>
+        </ul>
+      </li>
+      <li class="nav-group">
+        <a class="nav-link" href="#updates" data-screen="updates"><span class="nav-idx">03</span><span
+            class="nav-label">Updates</span><span class="nav-count" id="nav-updates-count" hidden>0</span></a>
+        <ul class="nav-sub-list">
+          <li><a class="nav-sub" href="#updates" data-screen="updates" data-target="reports-title">Reports</a></li>
+          <li><a class="nav-sub" href="#updates" data-screen="updates" data-target="report-heading">Report a problem</a>
+          </li>
+        </ul>
+      </li>
+      <li class="nav-group">
+        <a class="nav-link" href="#lostfound" data-screen="lostfound"><span class="nav-idx">04</span><span
+            class="nav-label">Lost &amp; Found</span></a>
+        <ul class="nav-sub-list">
+          <li><a class="nav-sub" href="#lostfound" data-screen="lostfound" data-target="lf-heading">Post a note</a></li>
+          <li><a class="nav-sub" href="#lostfound" data-screen="lostfound"
+              data-target="lostfound-results-container">Recent notes</a></li>
+        </ul>
+      </li>
+      <li class="nav-group">
+        <a class="nav-link" href="#myclass" data-screen="myclass"><span class="nav-idx">05</span><span
+            class="nav-label">My class</span></a>
+      </li>
+      <li class="nav-group" id="nav-dashboard" hidden>
+        <a class="nav-link" href="#dashboard" data-screen="dashboard"><span class="nav-idx">06</span><span
+            class="nav-label">Dashboard</span></a>
+      </li>
+    </ul>
+    <div class="sb-dock">
+      <a href="index.html" aria-label="Home" title="Home">
+        <svg viewBox="0 0 24 24" aria-hidden="true">
+          <path d="M3 11.5 12 4l9 7.5" />
+          <path d="M5.5 10v9.5h13V10" />
+          <path d="M10 19.5v-5h4v5" />
+        </svg>
+      </a>
+      <a href="index.html#teachers" aria-label="Staff sign-in" title="Staff sign-in">
+        <svg viewBox="0 0 24 24" aria-hidden="true">
+          <circle cx="8.5" cy="14.5" r="3.5" />
+          <path d="M11 12l8-8M16 7l2.5 2.5M14 9l2 2" />
+        </svg>
+      </a>
+      <button type="button" class="sb-ico" id="sb-theme" aria-label="Switch theme" title="Switch theme">
+        <svg viewBox="0 0 24 24" aria-hidden="true">
+          <mask id="sbm">
+            <rect width="24" height="24" fill="#fff" />
+            <circle class="cut" cx="17" cy="7" r="6" fill="#000" />
+          </mask>
+          <circle class="core" cx="12" cy="12" r="5.5" mask="url(#sbm)" />
+          <g class="rays">
+            <path d="M12 2.5v2M12 19.5v2M2.5 12h2M19.5 12h2M5.3 5.3l1.4 1.4M17.3 17.3l1.4 1.4M5.3 18.7l1.4-1.4M17.3 6.7l1.4-1.4" />
+          </g>
+        </svg>
+      </button>
+      <button type="button" class="sb-ico" id="sb-sound" aria-label="Sound on. Click to mute" aria-pressed="true" title="Sound on">
+        <svg viewBox="0 0 24 24" aria-hidden="true">
+          <path d="M4 9.5h3.5L12 5.5v13l-4.5-4H4z" />
+          <path class="w1" d="M15.5 9.2a4 4 0 0 1 0 5.6" />
+          <path class="w2" d="M18 6.8a7.5 7.5 0 0 1 0 10.4" />
+          <path class="x" d="M16 9.5l5 5M21 9.5l-5 5" />
+        </svg>
+      </button>
+    </div>
+  </nav>
+
+  <div class="shell">
+
+    <!-- PHONE TOP BAR -->
+    <header class="topbar">
+      <span class="brand-name">NoClass</span>
+      <span class="brand-sub">MITS Gwalior</span>
+      <button type="button" class="theme-toggle theme-toggle-compact" data-theme-toggle
+        aria-label="Switch to light mode">
+        <svg class="theme-icon theme-sun" viewBox="0 0 24 24" aria-hidden="true" fill="none" stroke="currentColor"
+          stroke-width="1.8">
+          <circle cx="12" cy="12" r="4" />
+          <path
+            d="M12 3v1.5M12 19.5V21M4.93 4.93l1.06 1.06M18.01 18.01l1.06 1.06M3 12h1.5M19.5 12H21M4.93 19.07l1.06-1.06M18.01 5.99l1.06-1.06" />
+        </svg>
+        <svg class="theme-icon theme-moon" viewBox="0 0 24 24" aria-hidden="true" fill="none" stroke="currentColor"
+          stroke-width="1.8">
+          <path d="M16.5 13.5A7 7 0 0 1 10.5 5a7 7 0 1 0 8.5 8.5 5.5 5.5 0 0 1-2.5 0z" />
+        </svg>
+      </button>
+    </header>
+
+    <!-- SHARED DATE + TIME BAR -->
+    <!-- SHARED DATE + TIME BAR -->
+    <section class="whenbar" aria-label="Date and time">
+      <div class="when-inner">
+        <div class="when-row">
+
+          <div class="when-pill">
+            <button type="button" class="when-step" data-when-step="-1440" aria-label="Previous day"><svg
+                viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"
+                stroke-linejoin="round" aria-hidden="true">
+                <path d="m15 6-6 6 6 6" />
+              </svg></button>
+            <label class="when-chip"><span id="date-label">Date</span><input type="date" id="date-input"
+                aria-label="Date"></label>
+            <button type="button" class="when-step" data-when-step="1440" aria-label="Next day"><svg viewBox="0 0 24 24"
+                fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"
+                aria-hidden="true">
+                <path d="m9 6 6 6-6 6" />
+              </svg></button>
+            <span class="when-sep" aria-hidden="true"></span>
+            <button type="button" class="when-step" data-when-step="-30" aria-label="30 minutes earlier"><svg
+                viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"
+                stroke-linejoin="round" aria-hidden="true">
+                <path d="m15 6-6 6 6 6" />
+              </svg></button>
+            <label class="when-chip is-time"><span id="time-label">Time</span><input type="time" id="time-input"
+                aria-label="Time"></label>
+            <button type="button" class="when-step" data-when-step="30" aria-label="30 minutes later"><svg
+                viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"
+                stroke-linejoin="round" aria-hidden="true">
+                <path d="m9 6 6 6-6 6" />
+              </svg></button>
+            <button type="button" id="now-btn" class="when-now">Now</button>
+          </div>
+
+          <div class="when-pill when-picks" role="group" aria-label="Pick a date or time">
+            <label class="when-pick" title="Pick a date">
+              <svg viewBox="0 0 24 24" aria-hidden="true" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round"><rect x="3.5" y="5" width="17" height="15.5" rx="3.5"/><path d="M3.5 10h17M8 3v4M16 3v4"/></svg>
+              <input type="date" class="when-proxy" id="proxy-date" aria-label="Pick a date">
+            </label>
+            <label class="when-pick" title="Pick a time">
+              <svg viewBox="0 0 24 24" aria-hidden="true" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="8.5"/><path d="M12 7.5V12l3 2"/></svg>
+              <input type="time" class="when-proxy" id="proxy-time" aria-label="Pick a time">
+            </label>
+          </div>
+
+        </div>
+        <p class="when-text" id="when-text" aria-live="polite"></p>
+      </div>
+    </section>
+
+    <main class="content" id="main">
+
+      <!-- ============ ROOMS ============ -->
+      <section id="screen-rooms" class="screen">
+        <div class="hero">
+          <div class="hero-text">
+            <p class="kicker">Timetable · July–Dec 2026</p>
+            <h1 class="hero-title">Find a free room.</h1>
+            <p class="hero-sub">Rooms with no class scheduled at your chosen time.</p>
+          </div>
+          <div class="hero-stat" aria-live="polite">
+            <p class="stat-number"><span id="stat-free">–</span><span class="stat-of">/ <span
+                  id="stat-total">–</span></span></p>
+            <p class="stat-label">rooms free</p>
+            <p class="stat-when" id="stat-when"></p>
+          </div>
+        </div>
+
+        <div class="split split-rooms">
+          <section class="panel" aria-labelledby="free-heading">
+            <div class="panel-head">
+              <h2 id="free-heading">Room status</h2>
+              <button type="button" class="info-btn" id="info-btn" aria-expanded="false" aria-controls="panel-note"
+                aria-label="About room status"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor"
+                  stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+                  <path d="M12 8h.01M12 12v4" />
+                </svg></button>
+            </div>
+            <p class="panel-note" id="panel-note" hidden>Each tile shows the timetable status at your selected time. “No
+              class” means no class
+              is scheduled; it does not guarantee the room is physically empty. Recent Lost &amp; Found notes are
+              attached to their room.</p>
+            <div class="room-tools">
+              <label class="visually-hidden" for="room-search">Search rooms</label>
+              <input id="room-search" class="input room-search" type="search" placeholder="Search rooms (e.g. M303)"
+                autocomplete="off">
+              <div class="room-filters" role="group" aria-label="Filter room status">
+                <button type="button" class="room-filter" data-room-filter="all" aria-pressed="true">All</button>
+                <button type="button" class="room-filter" data-room-filter="free" aria-pressed="false">free</button>
+                <button type="button" class="room-filter" data-room-filter="busy" aria-pressed="false">In class</button>
+              </div>
+            </div>
+            <p id="results-title" class="visually-hidden" aria-live="polite"></p>
+            <div id="results-container" class="room-cards" role="list" aria-label="Room status tiles"></div>
+          </section>
+          <section class="panel" aria-labelledby="grid-heading">
+            <div class="panel-head">
+              <h2 id="grid-heading">Day view</h2>
+              <ul class="legend">
+                <li><span class="sw sw-class"></span>Class</li>
+                <li><span class="sw sw-lab"></span>Lab session</li>
+                <li><span class="sw sw-now"></span>Selected time</li>
+              </ul>
+            </div>
+            <div id="grid-container" class="grid-scroll"></div>
+            <div class="grid-more"><button type="button" class="grid-toggle" id="grid-toggle"></button></div>
+          </section>
+        </div>
+      </section>
+
+      <!-- ============ TEACHERS ============ -->
+      <section id="screen-teachers" class="screen" hidden>
+        <header class="page-head">
+          <h1 class="page-title">Find a teacher.</h1>
+          <p class="page-sub">Find where a teacher is at the selected date and time.</p>
+        </header>
+
+        <form id="teacher-form" class="search-row" autocomplete="off">
+          <label class="visually-hidden" for="teacher-input">Teacher name or code</label>
+          <div class="t-search">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"
+              stroke-linejoin="round" aria-hidden="true">
+              <circle cx="11" cy="11" r="7" />
+              <path d="m20 20-3.5-3.5" />
+            </svg>
+            <input type="text" id="teacher-input" class="input"
+              placeholder="Search by name or code, e.g. Shradha or CST-SD">
+            <button type="submit" id="teacher-btn" class="t-go" aria-label="Search"><svg viewBox="0 0 24 24" fill="none"
+                stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"
+                aria-hidden="true">
+                <path d="M5 12h14m-6-6 6 6-6 6" />
+              </svg></button>
+          </div>
+        </form>
+
+        <p id="teacher-results-title" class="results-label" aria-live="polite"></p>
+        <ul id="teacher-results-container" class="teacher-list room-cards">
+          <li class="empty">Type a teacher’s name or code to see where they are.</li>
+        </ul>
+      </section>
+
+      <!-- ============ UPDATES ============ -->
+      <section id="screen-updates" class="screen" hidden>
+        <header class="page-head">
+          <h1 class="page-title">Updates.</h1>
+          <p class="page-sub">Reports from students for the selected date. They are not confirmed by faculty.</p>
+        </header>
+
+        <div class="split split-even">
+          <section class="panel" aria-labelledby="reports-title">
+            <div class="panel-head">
+              <h2 id="reports-title">Reports</h2>
+            </div>
+            <div id="reports-summary" class="u-summary" aria-label="Reports by type"></div>
+            <ul id="reports-container" class="u-feed"></ul>
+          </section>
+
+          <section class="panel" aria-labelledby="report-heading">
+            <div class="panel-head">
+              <h2 id="report-heading">Report a problem</h2>
+            </div>
+            <form id="report-form" class="nc-form">
+              <div class="field">
+                <span class="nc-label" id="report-type-label">What happened?</span>
+                <div class="choice" role="radiogroup" aria-labelledby="report-type-label">
+                  <input type="radio" class="visually-hidden" name="report-type" id="rt-cancelled" value="cancelled" checked>
+                  <label for="rt-cancelled" data-tone="busy">
+                    <svg viewBox="0 0 24 24" aria-hidden="true" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="8.5"/><path d="M6 6l12 12"/></svg>
+                    Class cancelled
+                  </label>
+                  <input type="radio" class="visually-hidden" name="report-type" id="rt-absent" value="absent">
+                  <label for="rt-absent" data-tone="busy">
+                    <svg viewBox="0 0 24 24" aria-hidden="true" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="8.5" r="3.5"/><path d="M5 20c.9-3.7 3.7-5.5 7-5.5s6.1 1.8 7 5.5"/></svg>
+                    Teacher absent
+                  </label>
+                  <input type="radio" class="visually-hidden" name="report-type" id="rt-room-changed" value="room-changed">
+                  <label for="rt-room-changed" data-tone="neutral">
+                    <svg viewBox="0 0 24 24" aria-hidden="true" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round"><path d="M4 8h13M13.5 4.5 17 8l-3.5 3.5"/><path d="M20 16H7M10.5 12.5 7 16l3.5 3.5"/></svg>
+                    Room changed
+                  </label>
+                </div>
+              </div>
+              <div class="nc-row">
+                <div class="field">
+                  <label for="report-room">Room</label>
+                  <select id="report-room" class="select"></select>
+                </div>
+                <div class="field">
+                  <label for="report-date">Date</label>
+                  <input type="date" id="report-date" class="input">
+                </div>
+              </div>
+              <div class="field">
+                <label for="report-note">Note<span class="nc-opt">optional</span></label>
+                <input type="text" id="report-note" class="input" maxlength="140" placeholder="e.g. moved to M203">
+              </div>
+              <button type="submit" id="report-btn" class="btn btn-primary">Submit report</button>
+              <p id="report-status" class="form-status" role="status" hidden></p>
+            </form>
+          </section>
+        </div>
+      </section>
+
+      <!-- ============ LOST & FOUND ============ -->
+      <section id="screen-lostfound" class="screen" hidden>
+        <header class="page-head">
+          <h1 class="page-title">Lost &amp; Found.</h1>
+          <p class="page-sub">Notes students leave for each classroom. Check the board before you go looking.</p>
+        </header>
+
+        <div class="split split-lf">
+          <section class="panel" aria-labelledby="lf-heading">
+            <div class="panel-head">
+              <h2 id="lf-heading">Post a note</h2>
+            </div>
+            <form id="lf-form" class="nc-form">
+              <div class="field">
+                <span class="nc-label" id="lf-type-label">What happened?</span>
+                <div class="choice is-two" role="radiogroup" aria-labelledby="lf-type-label">
+                  <input type="radio" class="visually-hidden" name="lf-type" id="lft-lost" value="lost" checked>
+                  <label for="lft-lost" data-tone="busy">
+                    <svg viewBox="0 0 24 24" aria-hidden="true" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round"><circle cx="11" cy="11" r="6.5"/><path d="M16 16l4.5 4.5"/></svg>
+                    Lost something
+                  </label>
+                  <input type="radio" class="visually-hidden" name="lf-type" id="lft-found" value="found">
+                  <label for="lft-found" data-tone="free">
+                    <svg viewBox="0 0 24 24" aria-hidden="true" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="8.5"/><path d="M8 12.5l2.8 2.8 5.2-5.6"/></svg>
+                    Found something
+                  </label>
+                </div>
+              </div>
+              <div class="field">
+                <label for="lf-room">Room</label>
+                <select id="lf-room" class="select"></select>
+              </div>
+              <div class="field">
+                <label for="lf-desc">Description</label>
+                <input type="text" id="lf-desc" class="input" maxlength="200" placeholder="e.g. blue water bottle">
+              </div>
+              <button type="submit" id="lf-btn" class="btn btn-primary">Post note</button>
+              <p id="lf-status" class="form-status" role="status" hidden></p>
+            </form>
+          </section>
+
+          <section aria-label="Recent notes">
+            <div class="filters">
+              <div class="seg" role="group" aria-label="Filter by type">
+                <button type="button" data-lf-type="all" aria-pressed="true">All</button>
+                <button type="button" data-lf-type="lost" aria-pressed="false">Lost</button>
+                <button type="button" data-lf-type="found" aria-pressed="false">Found</button>
+              </div>
+              <select id="lf-filter-room" class="select select-inline" aria-label="Filter by room"></select>
+            </div>
+            <div id="lostfound-results-container" class="board lf-board"></div>
+          </section>
+        </div>
+      </section>
+
+      <section id="screen-myclass" class="screen" hidden></section>
+      <section id="screen-dashboard" class="screen" hidden></section>
+
+    </main>
+
+    <!-- FOOTER -->
+    <footer class="site-footer">
+      <div class="footer-inner">
+        <div class="nc-foot">
+
+          <div class="nc-foot-top">
+            <div class="nc-foot-id">
+              <span class="nc-foot-brand">NoClass</span>
+              <span class="nc-foot-chip"><i class="nc-foot-dot" aria-hidden="true"></i>Timetable Jul–Dec 2026</span>
+            </div>
+            <nav class="nc-foot-links" aria-label="Project links">
+              <a class="nc-foot-link" href="https://github.com/Rit1kk/NoClass" target="_blank" rel="noopener">
+                <svg viewBox="0 0 24 24" aria-hidden="true" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="m8 8-4 4 4 4M16 8l4 4-4 4"/></svg>
+                GitHub
+                <svg class="nc-foot-out" viewBox="0 0 24 24" aria-hidden="true" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M7 17 17 7M9 7h8v8"/></svg>
+              </a>
+              <a class="nc-foot-link" href="#updates">
+                <svg viewBox="0 0 24 24" aria-hidden="true" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M5 21V4M5 4h11l-2 4 2 4H5"/></svg>
+                Report a problem
+              </a>
+            </nav>
+          </div>
+
+          <div class="nc-foot-bottom">
+            <p class="nc-foot-note">From the official MITS Gwalior timetable PDFs. A room shown as free has no class scheduled, but it may still be in use.</p>
+            <div class="nc-foot-credit">
+              <p class="nc-foot-by">Macro Project · Built by <strong>Ritik Baghel</strong> and <strong>Vinay Gaur</strong></p>
+              <span class="nc-foot-flag">
+                <svg viewBox="0 0 24 24" width="13" height="13" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><circle cx="12" cy="12" r="9"/><path d="M12 11v5M12 8h.01"/></svg>
+                Student project, not an official MITS service
+              </span>
+            </div>
+          </div>
+        </div>
+      </div>
+    </footer>
+
+  </div>
+
+  <script type="module" src="app.js"></script>
+  <script type="module" src="myclass.js"></script>
+  <script type="module" src="staff.js"></script>
+  <script src="sidebar.js" defer></script>
+  <script src="nc-select.js" defer></script>
+
+</body>
+
+</html>

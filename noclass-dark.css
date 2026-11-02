@@ -1,0 +1,511 @@
+/* ================================================================
+   noclass-dark.css  -  warm black + one peach accent (dark theme only)
+   Load it LAST, after style.css and sidebar.css:
+     <link rel="stylesheet" href="style.css">
+     <link rel="stylesheet" href="sidebar.css">
+     <link rel="stylesheet" href="noclass-dark.css">
+   Applies whenever the page is not in light mode (data-theme="dark", or no data-theme at all).
+   The light theme is untouched.
+   To undo: remove the <link>. Nothing in your own CSS is modified.
+   ================================================================ */
+
+/* ---- 0. smooth theme switching (pairs with theme-smooth.js) ----
+   While the theme flips, per-element colour transitions are switched off so every
+   surface changes in the same frame, and the browser cross-fades the whole page. */
+html.theme-switching *,
+html.theme-switching *::before,
+html.theme-switching *::after {
+  transition: none !important;
+}
+
+::view-transition-old(root),
+::view-transition-new(root) {
+  animation-duration: 0.26s;
+  animation-timing-function: ease;
+  mix-blend-mode: normal;
+}
+
+@media (prefers-reduced-motion: reduce) {
+
+  ::view-transition-group(*),
+  ::view-transition-old(*),
+  ::view-transition-new(*) {
+    animation: none !important;
+  }
+}
+
+/* ---- 1. colour tokens (override the dark values from style.css) ---- */
+html:not([data-theme="light"]) {
+  --g0: #111111;
+  --g1: #1A1919;
+  --g2: #2B2726;
+  --g3: #332E2C;
+  --g4: #B3A7A1;
+  --g5: #F2ECE8;
+  --forest: #EDE3DD;
+  --forest-dark: #FFFFFF;
+  --on-accent: #111111;
+  --mint: #211E1D;
+  --mint-line: #3A3432;
+  --paper: #111111;
+  --panel: #1A1919;
+  --ink: #F2ECE8;
+  --ink-soft: #B3A7A1;
+  --line: #332E2C;
+  --line-soft: #242120;
+  --field-bg: #151414;
+  --field-line: #77615A;
+  --amber: #E0C9A6;
+  --amber-bg: #2A241E;
+  --amber-bar: #B8996D;
+  --error: #F09494;
+  --sidebar-bg: #161515;
+  --sidebar-fg: #F2ECE8;
+  --sidebar-muted: rgba(242, 236, 232, 0.66);
+  --sidebar-line: rgba(242, 236, 232, 0.10);
+  --sidebar-hover: rgba(242, 236, 232, 0.06);
+  --footer-bg: #151414;
+  --footer-fg: rgba(242, 236, 232, 0.85);
+  --footer-muted: rgba(242, 236, 232, 0.62);
+  --tabbar-bg: #161515;
+  --theme-meta: #111111;
+  --toggle-line: rgba(242, 236, 232, 0.20);
+  --select-bg: rgba(242, 236, 232, 0.18);
+  --accent: #E07B5B;
+  --accent-hi: #EC946F;
+  --bar: #8B7A73;
+  --busy-fg: #CDBFB8;
+  --busy-bg: #2B2726;
+  --busy-bar: #77615A;
+}
+
+html:not([data-theme="light"]) {
+  accent-color: var(--accent);
+}
+
+html:not([data-theme="light"]) ::selection {
+  background: var(--select-bg);
+}
+
+html:not([data-theme="light"]) :focus-visible {
+  outline-color: var(--accent);
+}
+
+html:not([data-theme="light"]) .theme-toggle-compact {
+  border-color: var(--toggle-line);
+  color: var(--sidebar-fg);
+}
+
+html:not([data-theme="light"]) .stat-number {
+  color: var(--accent);
+}
+
+@media (max-width: 900px) {
+  html:not([data-theme="light"]) .nav-link[aria-current="page"] {
+    border-top-color: var(--accent);
+  }
+}
+
+/* ---- 2. polish (soft depth, hairline borders, one peach glow) ---- */
+/* ============================================================
+      DARK POLISH LAYER (soft depth, hairline borders, one peach glow)
+      Scoped to dark so the light theme is untouched. Delete this block to undo.
+      ============================================================ */
+html:not([data-theme="light"]) {
+  --sans: 'Inter', 'IBM Plex Sans', system-ui, -apple-system, 'Segoe UI', sans-serif;
+  --serif: 'Inter', 'IBM Plex Sans', system-ui, -apple-system, 'Segoe UI', sans-serif;
+  --r-sm: 8px;
+  --r-md: 12px;
+  --r-lg: 22px;
+  --hair: rgba(255, 255, 255, 0.07);
+  --hair-strong: rgba(255, 255, 255, 0.14);
+  --peach-grad: linear-gradient(180deg, #EE9172 0%, #DB6F4C 100%);
+  --peach-glow: rgba(224, 123, 91, 0.45);
+}
+
+html:not([data-theme="light"]) body {
+  -webkit-font-smoothing: antialiased;
+}
+
+html:not([data-theme="light"]) body::before {
+  /* faint peach glow, top right */
+  content: "";
+  position: fixed;
+  inset: 0;
+  z-index: -1;
+  pointer-events: none;
+  background: radial-gradient(900px 520px at 88% -8%, rgba(224, 123, 91, 0.09), transparent 62%);
+}
+
+/* headings: clean sans, tight, slightly fading ink */
+html:not([data-theme="light"]) .hero-title,
+html:not([data-theme="light"]) .page-title {
+  font-family: var(--sans);
+  font-weight: 500;
+  letter-spacing: -0.035em;
+  background: linear-gradient(180deg, #FFFFFF 20%, #B9ADA6 130%);
+  -webkit-background-clip: text;
+  background-clip: text;
+  -webkit-text-fill-color: transparent;
+}
+
+html:not([data-theme="light"]) .panel-head h2 {
+  font-family: var(--sans);
+  font-weight: 500;
+  font-size: 18px;
+  letter-spacing: -0.015em;
+}
+
+html:not([data-theme="light"]) .brand-name,
+html:not([data-theme="light"]) .footer-brand {
+  font-family: var(--sans);
+  font-weight: 600;
+  letter-spacing: -0.02em;
+}
+
+html:not([data-theme="light"]) .kicker {
+  color: var(--ink-soft);
+  letter-spacing: 1.4px;
+}
+
+html:not([data-theme="light"]) .hero-sub,
+html:not([data-theme="light"]) .page-sub {
+  color: var(--ink-soft);
+}
+
+/* date + time bar: quiet glass instead of a coloured strip */
+html:not([data-theme="light"]) .whenbar {
+  background: rgba(17, 16, 16, 0.72);
+  -webkit-backdrop-filter: blur(16px) saturate(120%);
+  backdrop-filter: blur(16px) saturate(120%);
+  border-bottom: 1px solid var(--hair);
+}
+
+html:not([data-theme="light"]) .when-field label {
+  color: var(--ink-soft);
+}
+
+html:not([data-theme="light"]) .when-text {
+  color: var(--ink-soft);
+}
+
+/* fields */
+html:not([data-theme="light"]) .input,
+html:not([data-theme="light"]) .select,
+html:not([data-theme="light"]) .whenbar input {
+  background: rgba(255, 255, 255, 0.035);
+  border: 1px solid var(--hair-strong);
+  border-radius: var(--r-md);
+  transition: border-color .18s ease, box-shadow .18s ease, background .18s ease;
+}
+
+html:not([data-theme="light"]) .input:hover,
+html:not([data-theme="light"]) .select:hover,
+html:not([data-theme="light"]) .whenbar input:hover {
+  border-color: rgba(255, 255, 255, 0.24);
+}
+
+html:not([data-theme="light"]) .input:focus,
+html:not([data-theme="light"]) .select:focus,
+html:not([data-theme="light"]) .whenbar input:focus {
+  background: rgba(255, 255, 255, 0.05);
+  border-color: var(--accent);
+  box-shadow: 0 0 0 4px rgba(224, 123, 91, 0.16);
+}
+
+/* buttons: one glowing peach primary, ghost everything else */
+html:not([data-theme="light"]) .btn {
+  border-radius: var(--r-md);
+  transition: transform .15s ease, box-shadow .2s ease, background .2s ease, border-color .2s ease, filter .2s ease;
+}
+
+html:not([data-theme="light"]) .btn-primary {
+  background: var(--peach-grad);
+  color: #111111;
+  border-color: rgba(255, 255, 255, 0.18);
+  box-shadow: inset 0 1px 0 rgba(255, 255, 255, 0.28), 0 8px 22px -8px var(--peach-glow);
+}
+
+html:not([data-theme="light"]) .btn-primary:hover {
+  background: var(--peach-grad);
+  filter: brightness(1.07);
+  transform: translateY(-1px);
+}
+
+html:not([data-theme="light"]) .btn-primary:active {
+  transform: translateY(0);
+  filter: brightness(0.97);
+}
+
+html:not([data-theme="light"]) .btn-outline {
+  background: rgba(255, 255, 255, 0.03);
+  color: var(--ink);
+  border-color: var(--hair-strong);
+}
+
+html:not([data-theme="light"]) .btn-outline:hover {
+  background: rgba(255, 255, 255, 0.07);
+  border-color: rgba(255, 255, 255, 0.26);
+}
+
+/* filters: quiet tint when selected, not a solid block */
+html:not([data-theme="light"]) .room-filter,
+html:not([data-theme="light"]) .seg {
+  border-color: var(--hair-strong);
+  background: rgba(255, 255, 255, 0.03);
+}
+
+html:not([data-theme="light"]) .room-filter {
+  transition: background .18s ease, color .18s ease, border-color .18s ease;
+}
+
+html:not([data-theme="light"]) .room-filter:hover {
+  color: var(--ink);
+  border-color: rgba(255, 255, 255, 0.26);
+}
+
+html:not([data-theme="light"]) .room-filter[aria-pressed="true"],
+html:not([data-theme="light"]) .seg button[aria-pressed="true"] {
+  background: rgba(224, 123, 91, 0.16);
+  color: var(--accent-hi);
+  border-color: rgba(224, 123, 91, 0.5);
+}
+
+html:not([data-theme="light"]) .seg button+button {
+  border-left-color: var(--hair-strong);
+}
+
+/* panels */
+html:not([data-theme="light"]) .panel {
+  background: linear-gradient(180deg, #1C1A1A 0%, #161414 100%);
+  border: 1px solid var(--hair);
+  border-radius: var(--r-lg);
+  box-shadow: inset 0 1px 0 rgba(255, 255, 255, 0.04), 0 24px 48px -32px rgba(0, 0, 0, 0.8);
+}
+
+@media (min-width: 901px) {
+  html:not([data-theme="light"]) .panel {
+    padding: 28px;
+  }
+}
+
+html:not([data-theme="light"]) .hero-stat {
+  border-left-color: var(--hair-strong);
+}
+
+html:not([data-theme="light"]) .stat-number {
+  text-shadow: 0 0 42px rgba(224, 123, 91, 0.35);
+}
+
+html:not([data-theme="light"]) .stat-of {
+  text-shadow: none;
+}
+
+/* room tiles: soft cards; free ones carry a faint peach glow and a filled pill */
+html:not([data-theme="light"]) .room-cards {
+  gap: 14px;
+}
+
+html:not([data-theme="light"]) .room-tile,
+html:not([data-theme="light"]) .room-tile.is-busy {
+  padding: 18px;
+  gap: 14px;
+  border: 1px solid var(--hair);
+  border-radius: 18px;
+  background: linear-gradient(180deg, #1C1A19 0%, #151312 100%);
+  box-shadow: inset 0 1px 0 rgba(255, 255, 255, 0.04);
+  transition: transform .22s cubic-bezier(.2, .8, .2, 1), border-color .22s ease, box-shadow .22s ease;
+}
+
+html:not([data-theme="light"]) .room-tile.is-free {
+  background:
+    radial-gradient(130% 85% at 0% 0%, rgba(224, 123, 91, 0.13), transparent 58%),
+    linear-gradient(180deg, #1F1C1B 0%, #171413 100%);
+}
+
+html:not([data-theme="light"]) .room-tile:hover {
+  transform: translateY(-2px);
+  border-color: var(--hair-strong);
+  box-shadow: inset 0 1px 0 rgba(255, 255, 255, 0.05), 0 18px 36px -22px rgba(0, 0, 0, 0.9);
+}
+
+html:not([data-theme="light"]) .room-tile.is-free:hover {
+  border-color: rgba(224, 123, 91, 0.45);
+  box-shadow: inset 0 1px 0 rgba(255, 255, 255, 0.05), 0 18px 40px -22px rgba(224, 123, 91, 0.5);
+}
+
+html:not([data-theme="light"]) .room-status {
+  font-size: 10px;
+  padding: 5px 10px;
+  letter-spacing: 0.7px;
+}
+
+html:not([data-theme="light"]) .status-free {
+  background: var(--peach-grad);
+  color: #111111;
+  box-shadow: inset 0 1px 0 rgba(255, 255, 255, 0.3), 0 6px 16px -6px var(--peach-glow);
+}
+
+html:not([data-theme="light"]) .status-busy {
+  background: transparent;
+  color: var(--ink-soft);
+  box-shadow: inset 0 0 0 1px var(--hair-strong);
+}
+
+html:not([data-theme="light"]) .tile-class-info {
+  border-top-color: var(--hair);
+  padding-top: 14px;
+}
+
+html:not([data-theme="light"]) .tile-subject {
+  font-weight: 600;
+  letter-spacing: -0.01em;
+}
+
+html:not([data-theme="light"]) .tile-time {
+  background: rgba(255, 255, 255, 0.07);
+  color: #E8DED8;
+  border-radius: 8px;
+  padding: 4px 9px;
+}
+
+html:not([data-theme="light"]) .tag-lab {
+  background: rgba(224, 201, 166, 0.12);
+  color: var(--amber);
+  border-radius: 6px;
+}
+
+html:not([data-theme="light"]) .tile-note {
+  background: rgba(255, 255, 255, 0.035);
+  border: 1px solid var(--hair);
+  border-radius: 12px;
+  transition: border-color .18s ease, background .18s ease;
+}
+
+html:not([data-theme="light"]) .tile-note:hover {
+  background: rgba(255, 255, 255, 0.06);
+  border-color: var(--hair-strong);
+}
+
+html:not([data-theme="light"]) .tile-note-link {
+  color: var(--ink);
+}
+
+/* day view */
+html:not([data-theme="light"]) .g-hours span {
+  border-left-color: var(--hair);
+}
+
+html:not([data-theme="light"]) .g-row {
+  border-top-color: rgba(255, 255, 255, 0.05);
+}
+
+html:not([data-theme="light"]) .g-cell {
+  border-left-color: rgba(255, 255, 255, 0.04);
+}
+
+html:not([data-theme="light"]) .g-label {
+  background: #191717;
+}
+
+html:not([data-theme="light"]) .g-bar {
+  background: #6E625D;
+  border-radius: 6px;
+}
+
+html:not([data-theme="light"]) .g-bar.lab {
+  background: #B8996D;
+}
+
+html:not([data-theme="light"]) .g-now {
+  background: var(--accent);
+  box-shadow: 0 0 14px rgba(224, 123, 91, 0.7);
+}
+
+html:not([data-theme="light"]) .sw-class {
+  background: #6E625D;
+}
+
+html:not([data-theme="light"]) .sw-now {
+  background: var(--accent);
+}
+
+/* teachers, updates, lost and found */
+html:not([data-theme="light"]) .teacher-list,
+html:not([data-theme="light"]) .notice-list {
+  border-top-color: var(--hair);
+}
+
+html:not([data-theme="light"]) .teacher-row {
+  border-bottom-color: var(--hair);
+}
+
+html:not([data-theme="light"]) .t-class+.t-class {
+  border-top-color: var(--hair);
+}
+
+html:not([data-theme="light"]) .t-room {
+  color: var(--accent);
+}
+
+html:not([data-theme="light"]) .notice {
+  border-bottom-color: var(--hair);
+}
+
+html:not([data-theme="light"]) .note {
+  background: linear-gradient(180deg, #1C1A19 0%, #151312 100%);
+  border: 1px solid var(--hair);
+  border-radius: 16px;
+  box-shadow: inset 0 1px 0 rgba(255, 255, 255, 0.04);
+}
+
+/* footer */
+html:not([data-theme="light"]) .site-footer {
+  background: transparent;
+  border-top: 1px solid var(--hair);
+}
+
+html:not([data-theme="light"]) .footer-bottom {
+  border-top-color: var(--hair);
+}
+
+html:not([data-theme="light"]) .site-footer a {
+  color: var(--ink);
+}
+
+/* ---- 3. floating sidebar (desktop) ---- */
+@media (min-width: 901px) {
+  html:not([data-theme="light"]) {
+    --sb-bg: #101013;
+    --sb-ink: #F2ECE8;
+    --sb-dim: rgba(242, 236, 232, .62);
+    --sb-tick: rgba(242, 236, 232, .16);
+    --sb-acc: #E07B5B;
+  }
+
+  html:not([data-theme="light"]) .sidebar {
+    background: linear-gradient(180deg, #1A1817 0%, #131211 100%);
+    border-radius: 26px;
+    box-shadow: 0 30px 60px -36px rgba(0, 0, 0, .85), 0 0 0 1px rgba(255, 255, 255, .07), inset 0 1px 0 rgba(255, 255, 255, .05);
+  }
+
+  html:not([data-theme="light"]) .sb-toggle {
+    border-color: rgba(255, 255, 255, .16);
+  }
+
+  html:not([data-theme="light"]) .sidebar .nav-count,
+  html:not([data-theme="light"]) .sidebar .nav-link[aria-current="page"] .nav-count {
+    background: var(--sb-ink);
+    color: #111111;
+  }
+
+  html:not([data-theme="light"]) .sb-sound[aria-pressed="true"] {
+    color: var(--sb-ink);
+  }
+
+  html:not([data-theme="light"]) .nav-link[aria-current="page"]::before,
+  html:not([data-theme="light"]) .nav-sub.is-on::before {
+    box-shadow: 0 0 8px rgba(224, 123, 91, .5);
+  }
+}
+html.theme-switching *, html.theme-switching *::before, html.theme-switching *::after { transition: none !important; }

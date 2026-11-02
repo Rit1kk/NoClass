@@ -1,0 +1,58 @@
+/* ---------- 1. quick fix: native lists follow the theme ---------- */
+html[data-theme="dark"]  { color-scheme: dark; }
+html[data-theme="light"] { color-scheme: light; }
+html[data-theme] select option {
+  background: var(--surf, #1b1b1b); color: var(--ink, #f2f2f2);
+}
+html[data-theme="light"] select option {
+  background: var(--surf, #fff); color: var(--ink, #1a1a1a);
+}
+
+/* ---------- 2. custom dropdown (only used when nc-select.js is loaded) ---------- */
+select.ncs-native{
+  position:absolute!important; width:1px!important; height:1px!important; margin:0!important;
+  padding:0!important; border:0!important; opacity:0!important; pointer-events:none!important;
+  clip:rect(0 0 0 0)!important; overflow:hidden!important;
+}
+/* zero-specificity base, so your own .select / .select-inline rules always win */
+:where(.ncs-btn){
+  display:flex; align-items:center; justify-content:space-between; gap:8px;
+  box-sizing:border-box; min-width:0; height:44px; padding:0 16px;
+  background:var(--surf-2,#262626); color:inherit; border:1px solid var(--hair,transparent);
+  border-radius:999px; font:inherit; font-size:14px; text-align:left; cursor:pointer;
+}
+.ncs-btn{ -webkit-appearance:none; appearance:none; }
+.ncs-btn:disabled{opacity:.5; cursor:not-allowed}
+.ncs-val{flex:1; min-width:0; overflow:hidden; text-overflow:ellipsis; white-space:nowrap}
+.ncs-btn.is-ph .ncs-val{color:var(--ink-soft,rgba(255,255,255,.6))}
+.ncs-chev{flex:none; width:14px; height:14px; opacity:.7; transition:transform .3s cubic-bezier(.22,1,.36,1)}
+.ncs-btn[aria-expanded="true"] .ncs-chev{transform:rotate(180deg)}
+.ncs-btn[aria-expanded="true"]{border-color:var(--accent,#e8795a)}
+.ncs-btn:focus-visible{outline:2px solid var(--accent,#e8795a); outline-offset:2px}
+
+.ncs-list{
+  position:fixed; z-index:1000; margin:0; padding:6px; list-style:none; overflow:auto; max-height:280px;
+  background:var(--surf,#1b1b1b); color:var(--ink,#f2f2f2);
+  border:1px solid var(--hair-strong,rgba(255,255,255,.14)); border-radius:16px;
+  box-shadow:0 20px 50px rgba(0,0,0,.45);
+  opacity:0; visibility:hidden; transform:translateY(-6px) scale(.98); transform-origin:top center;
+  transition:opacity .16s ease, transform .22s cubic-bezier(.22,1,.36,1), visibility 0s .22s;
+  scrollbar-width:thin;
+}
+html[data-theme="light"] .ncs-list{
+  background:var(--surf,#fff); color:var(--ink,#1a1a1a);
+  border-color:var(--hair-strong,rgba(0,0,0,.14)); box-shadow:0 20px 50px rgba(0,0,0,.18);
+}
+.ncs-list.up{transform-origin:bottom center; transform:translateY(6px) scale(.98)}
+.ncs-list.open{opacity:1; visibility:visible; transform:none; transition-delay:0s}
+.ncs-opt{
+  display:flex; align-items:center; justify-content:space-between; gap:12px;
+  padding:9px 12px; border-radius:11px; font-size:14px; cursor:pointer; user-select:none;
+}
+.ncs-opt span{overflow:hidden; text-overflow:ellipsis; white-space:nowrap}
+.ncs-opt.is-active{background:var(--surf-2,rgba(255,255,255,.08))}
+.ncs-opt[aria-selected="true"]{font-weight:600}
+.ncs-opt.is-dis{opacity:.45; cursor:not-allowed}
+.ncs-ck{flex:none; width:14px; height:14px; color:var(--accent,#e8795a); opacity:0}
+.ncs-opt[aria-selected="true"] .ncs-ck{opacity:1}
+@media (prefers-reduced-motion:reduce){ .ncs-list,.ncs-chev{transition:none} }

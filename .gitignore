@@ -67,3 +67,13 @@ node_modules/
 
 # dataconnect generated files
 .dataconnect
+# private / not needed on GitHub
+staff-seed.html
+seed.html
+_old/
+find-unused.js
+.firebase/
+*.xlsx
+*.csv
+*.docx
+.DS_Store

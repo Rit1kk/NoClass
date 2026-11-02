@@ -1,0 +1,315 @@
+.cn-pill,
+.cn-panel {
+    --cn-bg: #1b1b1b;
+    --cn-line: rgba(255, 255, 255, .12);
+    --cn-fg: #f2f2f2;
+    --cn-mute: rgba(255, 255, 255, .62);
+    --cn-field: #262626;
+    --cn-accent: #e8795a;
+    --cn-ease: cubic-bezier(.22, 1, .36, 1);
+}
+
+html[data-theme="light"] .cn-pill,
+html[data-theme="light"] .cn-panel,
+body.light .cn-pill,
+body.light .cn-panel {
+    --cn-bg: #fff;
+    --cn-line: rgba(0, 0, 0, .12);
+    --cn-fg: #1a1a1a;
+    --cn-mute: rgba(0, 0, 0, .6);
+    --cn-field: #f2f2f2;
+}
+
+/* ---- nav pill ---- */
+.cn-pill {
+    all: unset;
+    box-sizing: border-box;
+    display: inline-flex;
+    align-items: center;
+    gap: 8px;
+    flex: none;
+    height: 36px;
+    padding: 0 14px;
+    margin-right: 10px;
+    border: 1px solid var(--cn-line);
+    border-radius: 18px;
+    background: var(--cn-bg);
+    color: var(--cn-fg);
+    font-family: inherit;
+    font-size: 14px;
+    font-weight: 500;
+    white-space: nowrap;
+    cursor: pointer;
+    transition: border-color .25s, box-shadow .25s, transform .2s;
+}
+
+.cn-pill:hover {
+    border-color: var(--cn-accent);
+    box-shadow: 0 0 0 4px rgba(232, 121, 90, .12)
+}
+
+.cn-pill:active {
+    transform: scale(.97)
+}
+
+.cn-pill:focus-visible {
+    outline: 2px solid var(--cn-accent);
+    outline-offset: 2px
+}
+
+.cn-chev {
+    transition: transform .4s var(--cn-ease);
+    opacity: .7
+}
+
+.cn-pill[aria-expanded="true"] .cn-chev {
+    transform: rotate(180deg)
+}
+
+.cn-pill[aria-expanded="true"] {
+    border-color: var(--cn-accent)
+}
+
+/* ---- pulled-down panel ---- */
+.cn-panel {
+    position: fixed;
+    left: 0;
+    right: 0;
+    margin: 0 auto;
+    top: 70px;
+    z-index: 200;
+    width: min(540px, calc(100vw - 24px));
+    border-radius: 22px;
+    white-space: normal;
+    box-shadow: 0 30px 80px rgba(0, 0, 0, .55);
+    opacity: 0;
+    pointer-events: none;
+    transform: translateY(-14px);
+    transition: opacity .25s, transform .5s var(--cn-ease);
+}
+
+.cn-panel.open {
+    opacity: 1;
+    pointer-events: auto;
+    transform: none
+}
+
+.cn-sheet {
+    position: relative;
+    overflow: hidden;
+    border-radius: 22px;
+    background:
+        radial-gradient(120% 70% at 50% -10%, rgba(232, 121, 90, .20), transparent 60%),
+        color-mix(in srgb, var(--cn-bg) 92%, transparent);
+    -webkit-backdrop-filter: blur(18px);
+    backdrop-filter: blur(18px);
+    border: 1px solid var(--cn-line);
+    color: var(--cn-fg);
+    clip-path: inset(0 0 100% 0 round 22px);
+    transition: clip-path .55s var(--cn-ease);
+}
+
+.cn-panel.open .cn-sheet {
+    clip-path: inset(0 0 0 0 round 22px)
+}
+
+.cn-sheet::before {
+    /* thin accent line at the top */
+    content: "";
+    position: absolute;
+    top: 0;
+    left: 12%;
+    right: 12%;
+    height: 1px;
+    background: linear-gradient(90deg, transparent, var(--cn-accent), transparent);
+    opacity: .8;
+}
+
+/* close button: far top-right corner */
+.cn-close {
+    all: unset;
+    box-sizing: border-box;
+    position: absolute;
+    top: 14px;
+    right: 14px;
+    z-index: 2;
+    width: 30px;
+    height: 30px;
+    display: grid;
+    place-items: center;
+    border-radius: 50%;
+    background: var(--cn-field);
+    color: var(--cn-mute);
+    cursor: pointer;
+    transition: transform .35s var(--cn-ease), color .2s, background .2s;
+}
+
+.cn-close:hover {
+    color: var(--cn-fg);
+    transform: rotate(90deg)
+}
+
+.cn-close:focus-visible {
+    outline: 2px solid var(--cn-accent)
+}
+
+/* the existing card, stripped of its own box */
+.cn-slot #classpick {
+    margin: 0 !important;
+    max-width: none !important;
+    width: auto !important;
+    background: transparent !important;
+    border: 0 !important;
+    box-shadow: none !important;
+    border-radius: 0 !important;
+    padding: 22px 22px 22px !important;
+    animation: none !important;
+    opacity: 1 !important;
+    transform: none !important;
+}
+
+.cn-slot #classpick h1,
+.cn-slot #classpick h2,
+.cn-slot #classpick h3 {
+    padding-right: 40px
+}
+
+.cn-slot select {
+    background-color: var(--cn-field) !important;
+    border: 1px solid transparent !important;
+    transition: border-color .2s, box-shadow .2s;
+}
+
+.cn-slot select:hover {
+    border-color: var(--cn-line) !important
+}
+
+.cn-slot select:focus {
+    border-color: var(--cn-accent) !important;
+    box-shadow: 0 0 0 3px rgba(232, 121, 90, .18);
+    outline: none
+}
+
+.cn-slot select.cn-shake {
+    animation: cnShake .4s;
+    border-color: var(--cn-accent) !important
+}
+
+/* staggered entrance */
+.cn-panel.open .cn-slot #classpick>* {
+    animation: cnUp .6s var(--cn-ease) both
+}
+
+.cn-panel.open .cn-slot #classpick>*:nth-child(1) {
+    animation-delay: .10s
+}
+
+.cn-panel.open .cn-slot #classpick>*:nth-child(2) {
+    animation-delay: .16s
+}
+
+.cn-panel.open .cn-slot #classpick>*:nth-child(3) {
+    animation-delay: .22s
+}
+
+.cn-panel.open .cn-slot #classpick>*:nth-child(4) {
+    animation-delay: .28s
+}
+
+.cn-panel.open .cn-slot #classpick>*:nth-child(5) {
+    animation-delay: .34s
+}
+
+@keyframes cnUp {
+    from {
+        opacity: 0;
+        transform: translateY(10px)
+    }
+
+    to {
+        opacity: 1;
+        transform: none
+    }
+}
+
+@keyframes cnShake {
+    25% {
+        transform: translateX(-4px)
+    }
+
+    75% {
+        transform: translateX(4px)
+    }
+}
+
+@media (prefers-reduced-motion:reduce) {
+
+    .cn-panel,
+    .cn-sheet,
+    .cn-chev {
+        transition: none
+    }
+
+    .cn-panel.open .cn-slot #classpick>* {
+        animation: none
+    }
+}
+
+@media (max-width:700px) {
+    .cn-pill {
+        margin-right: 6px;
+        padding: 0 11px
+    }
+}
+.cn-slot #classpick *{min-width:0}
+.cn-slot select{
+  width:100%!important; min-width:0!important;
+  font-size:14px!important;
+  padding-left:14px!important; padding-right:34px!important;
+  white-space:nowrap; overflow:hidden; text-overflow:ellipsis;
+}
+.cn-slot #classpick p{overflow-wrap:anywhere}
+.cn-slot #classpick h1, .cn-slot #classpick h2, .cn-slot #classpick h3{display:none}
+/* clear link */
+.cn-foot{display:none; padding:0 22px 18px; margin-top:-4px; text-align:center}
+.cn-panel.has-class .cn-foot{display:block}
+.cn-clear{
+  all:unset; cursor:pointer; font-size:13px; color:var(--cn-mute);
+  text-decoration:underline; text-underline-offset:3px; transition:color .2s;
+}
+.cn-clear:hover{color:var(--cn-accent)}
+.cn-clear:focus-visible{outline:2px solid var(--cn-accent); outline-offset:3px; border-radius:4px}
+
+/* first-visit hint: accent label, short pulse */
+.cn-pill.cn-new{color:var(--cn-accent); border-color:rgba(232,121,90,.55)}
+.cn-pill.cn-pulse{animation:cnPulse 2.2s ease-out 3}
+@keyframes cnPulse{
+  0%{box-shadow:0 0 0 0 rgba(232,121,90,.55)}
+  70%,100%{box-shadow:0 0 0 12px rgba(232,121,90,0)}
+}
+@media (prefers-reduced-motion:reduce){ .cn-pill.cn-pulse{animation:none} }
+#cn-toast{
+    position:fixed; left:50%; bottom:28px; z-index:300;
+    transform:translate(-50%, 16px); opacity:0; pointer-events:none;
+    padding:10px 18px; border-radius:999px;
+    background:#1b1b1b; color:#f2f2f2; border:1px solid rgba(255,255,255,.12);
+    font-size:13.5px; box-shadow:0 12px 32px rgba(0,0,0,.4);
+    transition:opacity .3s, transform .45s cubic-bezier(.22,1,.36,1);
+    max-width:calc(100vw - 24px); text-align:center;
+  }
+  #cn-toast.show{opacity:1; transform:translate(-50%, 0)}
+  html[data-theme="light"] #cn-toast, body.light #cn-toast{background:#1a1a1a; color:#fff}
+  .cn-slot .ncs-btn{
+    width:100%; height:48px; padding:0 14px; border-radius:999px;
+    background:var(--cn-field); color:var(--cn-fg); border:1px solid transparent; font-size:14px;
+  }
+  .cn-slot .ncs-btn:hover{border-color:var(--cn-line)}
+  .cn-slot .ncs-btn[aria-expanded="true"]{border-color:var(--cn-accent)}
+  .cn-slot .ncs-btn.cn-shake{animation:cnShake .4s; border-color:var(--cn-accent)}
+  .cn-slot .ncs-btn{
+    width:100%; height:48px; padding:0 14px; border-radius:999px;
+    background:var(--cn-field); color:var(--cn-fg); border:1px solid transparent; font-size:14px;
+  }
+  .cn-slot .ncs-btn:hover{border-color:var(--cn-line)}
+  .cn-slot .ncs-btn[aria-expanded="true"]{border-color:var(--cn-accent)}
+  .cn-slot .ncs-btn.cn-shake{animation:cnShake .4s; border-color:var(--cn-accent)}

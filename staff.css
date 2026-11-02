@@ -1,0 +1,640 @@
+/* ================================================================
+   staff.css  -  teacher dashboard, bottom sheets, "My class" bar, verified badge
+   Load after noclass-ui.css (uses its colour tokens).
+   ================================================================ */
+/* ---- dashboard screen ---- */
+html[data-theme] .td-head {
+  display: flex;
+  align-items: flex-end;
+  justify-content: space-between;
+  gap: 16px;
+  flex-wrap: wrap;
+}
+
+.td-who {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+}
+
+.td-badge {
+  padding: 5px 12px;
+  border-radius: 999px;
+  background: var(--free-bg);
+  color: var(--free);
+  font-size: 12px;
+  font-weight: 500;
+}
+
+.td-viewas {
+  display: inline-flex;
+  align-items: center;
+  gap: 10px;
+  margin-bottom: 16px;
+  color: var(--ink-soft);
+  font-size: 13px;
+}
+
+.td-list {
+  display: grid;
+  gap: 12px;
+  margin: 6px 0 0;
+  padding: 0;
+  list-style: none;
+}
+
+.td-card,
+.td-post {
+  padding: 16px;
+  border-radius: 20px;
+  background: var(--tile);
+  border: 1px solid var(--hair);
+  animation: tileIn .4s cubic-bezier(.2, .8, .2, 1) backwards;
+  animation-delay: calc(min(var(--i, 0), 10) * 30ms);
+}
+
+.td-card { transition: border-color .3s ease, box-shadow .3s ease, opacity .3s ease; }
+
+/* upcoming: bright, soft green edge */
+.td-card.is-soon {
+  border-color: color-mix(in srgb, var(--free) 35%, var(--hair));
+  box-shadow: 0 0 0 1px color-mix(in srgb, var(--free) 10%, transparent),
+              0 0 26px color-mix(in srgb, var(--free) 12%, transparent);
+}
+
+/* in progress: stronger orange glow */
+.td-card.is-live {
+  border-color: rgba(233, 113, 79, .65);
+  box-shadow: 0 0 0 1px rgba(233, 113, 79, .18), 0 0 32px rgba(233, 113, 79, .22);
+}
+
+/* cancelled: faint red edge */
+.td-card.is-off {
+  border-color: color-mix(in srgb, var(--error) 40%, var(--hair));
+}
+
+/* done: only slightly dimmed, still readable */
+.td-card.is-done { opacity: .75; }
+
+.td-top {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  gap: 10px;
+  flex-wrap: wrap;
+}
+
+.td-time {
+  font-size: 13px;
+  font-weight: 500;
+  font-variant-numeric: tabular-nums;
+  color: var(--ink-soft);
+}
+
+.td-state {
+  display: inline-flex;
+  align-items: center;
+  gap: 7px;
+  font-size: 13px;
+  font-weight: 500;
+}
+
+.td-dot {
+  width: 8px;
+  height: 8px;
+  border-radius: 50%;
+  background: var(--ink-soft);
+}
+
+.is-live .td-dot {
+  background: var(--busy);
+}
+
+.is-soon .td-dot {
+  background: var(--free);
+}
+
+.is-off .td-dot {
+  background: var(--error);
+}
+
+.is-off .td-state {
+  color: var(--error);
+}
+
+.td-subject {
+  margin-top: 10px;
+  font-size: 16px;
+  font-weight: 600;
+  letter-spacing: -.01em;
+}
+
+.td-chip {
+  margin-left: 8px;
+  padding: 2px 8px;
+  border-radius: 999px;
+  background: var(--surf-2);
+  color: var(--ink-soft);
+  font-size: 11px;
+  font-weight: 500;
+}
+
+.td-meta {
+  margin-top: 4px;
+  font-size: 13px;
+  color: var(--ink-soft);
+}
+
+.td-from {
+  color: var(--busy);
+}
+
+.td-note {
+  margin-top: 8px;
+  font-size: 14px;
+}
+
+.td-actions {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 8px;
+  margin-top: 14px;
+}
+
+.td-btn {
+  padding: 8px 14px;
+  border: 1px solid var(--hair-strong);
+  border-radius: 999px;
+  background: transparent;
+  color: var(--ink);
+  font: inherit;
+  font-size: 13px;
+  font-weight: 500;
+  cursor: pointer;
+  transition: background .15s ease, transform .15s ease;
+}
+
+.td-btn:hover {
+  background: var(--surf-2);
+}
+
+.td-btn:active {
+  transform: scale(.96);
+}
+
+.td-btn:disabled {
+  opacity: .5;
+  cursor: progress;
+}
+
+.td-btn.danger {
+  color: var(--error);
+  border-color: color-mix(in srgb, var(--error) 40%, transparent);
+}
+
+.td-btn.primary {
+  background: var(--accent);
+  color: var(--on-accent, #111);
+  border-color: transparent;
+  font-weight: 600;
+}
+
+.td-btn.primary:hover {
+  background: var(--accent-hi);
+}
+
+.td-post {
+  display: flex;
+  justify-content: space-between;
+  align-items: flex-start;
+  gap: 12px;
+  animation: none;
+}
+
+.td-post-t {
+  font-size: 15px;
+  font-weight: 600;
+}
+
+.td-empty {
+  display: grid;
+  gap: 4px;
+  padding: 36px 16px;
+  text-align: center;
+  border: 1px dashed var(--hair-strong);
+  border-radius: 20px;
+  color: var(--ink-soft);
+  font-size: 14px;
+}
+
+.td-empty strong {
+  color: var(--ink);
+  font-size: 15px;
+}
+
+.td-gate {
+  display: grid;
+  gap: 16px;
+  justify-items: start;
+}
+
+/* ---- bottom sheet ---- */
+.td-back {
+  position: fixed;
+  inset: 0;
+  z-index: 200;
+  display: flex;
+  align-items: flex-end;
+  justify-content: center;
+  padding: 0;
+  background: rgba(0, 0, 0, .55);
+}
+
+.td-back[hidden] {
+  display: none;
+}
+
+.td-sheet {
+  width: 100%;
+  max-width: 480px;
+  max-height: 92vh;
+  overflow: auto;
+  padding: 26px 22px 28px;
+  border-radius: 28px 28px 0 0;
+  background: var(--surf);
+  border: 1px solid var(--hair-strong);
+  animation: sheetUp .3s cubic-bezier(.2, .8, .2, 1);
+}
+
+@keyframes sheetUp {
+  from {
+    transform: translateY(40px);
+    opacity: 0;
+  }
+
+  to {
+    transform: none;
+    opacity: 1;
+  }
+}
+
+@media (min-width: 700px) {
+  .td-back {
+    align-items: center;
+    padding: 24px;
+  }
+
+  .td-sheet {
+    border-radius: 28px;
+  }
+}
+
+body.td-lock {
+  overflow: hidden;
+}
+
+.td-sheet h2 {
+  font-size: 20px;
+  font-weight: 600;
+  letter-spacing: -.015em;
+}
+
+.td-sub {
+  margin: 4px 0 18px;
+  font-size: 13px;
+  color: var(--ink-soft);
+}
+
+.td-hint {
+  margin-top: 8px;
+  font-size: 13px;
+  color: var(--ink-soft);
+}
+
+.td-switch {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  margin: 4px 0 18px;
+  font-size: 14px;
+  cursor: pointer;
+}
+
+.td-switch input {
+  width: 18px;
+  height: 18px;
+  accent-color: var(--accent);
+}
+
+.td-sheet .btn-primary {
+  width: 100%;
+}
+
+.td-ghost {
+  width: 100%;
+  margin-top: 10px;
+  padding: 12px;
+  border: 1px solid var(--hair-strong);
+  border-radius: 999px;
+  background: transparent;
+  color: var(--ink-soft);
+  font: inherit;
+  font-size: 15px;
+  cursor: pointer;
+}
+
+.td-ghost:hover {
+  background: var(--surf-2);
+  color: var(--ink);
+}
+
+.td-sheet .seg {
+  display: flex;
+}
+
+.td-sheet .seg button {
+  flex: 1;
+}
+
+.td-toast {
+  position: fixed;
+  left: 50%;
+  bottom: 84px;
+  z-index: 300;
+  transform: translateX(-50%);
+  padding: 11px 18px;
+  border-radius: 999px;
+  background: var(--ink);
+  color: var(--paper, #111);
+  font-size: 14px;
+  font-weight: 500;
+  animation: tileIn .25s ease;
+}
+
+.td-toast[hidden] {
+  display: none;
+}
+
+/* ---- Updates screen: verified teacher notices + "My class" bar ---- */
+.u-badge {
+  margin-left: 8px;
+  padding: 2px 9px;
+  border-radius: 999px;
+  background: var(--free-bg);
+  color: var(--free);
+  font-size: 11px;
+  font-weight: 500;
+  white-space: nowrap;
+}
+
+.u-aud {
+  color: var(--ink-soft);
+  font-size: 12px;
+  margin-top: 2px;
+}
+
+.myclass {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: 8px;
+  margin: 0 0 14px;
+}
+
+.mc-label {
+  font-size: 13px;
+  font-weight: 500;
+  color: var(--ink-soft);
+  margin-right: 2px;
+}
+
+.myclass .select {
+  min-width: 0;
+}
+
+@media (prefers-reduced-motion: reduce) {
+
+  .td-card,
+  .td-sheet,
+  .td-toast {
+    animation: none;
+  }
+}
+/* ================= dashboard: app theme + light glass ================= */
+#screen-dashboard, .td-back { --gl-hi: rgba(255,255,255,.05); }
+html[data-theme="light"] #screen-dashboard,
+html[data-theme="light"] .td-back { --gl-hi: rgba(255,255,255,.7); }
+
+/* keep the two columns full width */
+#screen-dashboard .split-even { width: 100%; }
+@media (min-width: 1101px) {
+  #screen-dashboard .split-even { display: grid; grid-template-columns: minmax(0, 1.35fr) minmax(320px, 1fr); align-items: start; }
+}
+
+/* class cards: flat tiles, soft colour only for upcoming / live */
+#screen-dashboard .td-card,
+#screen-dashboard .td-post { background: var(--tile); border: 1px solid var(--hair); box-shadow: none; }
+#screen-dashboard .td-card.is-soon {
+  border-color: color-mix(in srgb, var(--free) 30%, var(--hair));
+  box-shadow: 0 10px 30px -16px color-mix(in srgb, var(--free) 40%, transparent);
+}
+#screen-dashboard .td-card.is-live {
+  border-color: rgba(233, 113, 79, .55);
+  box-shadow: 0 10px 30px -14px rgba(233, 113, 79, .45);
+}
+#screen-dashboard .td-card.is-off  { border-color: color-mix(in srgb, var(--error) 35%, var(--hair)); }
+#screen-dashboard .td-card.is-done { opacity: .75; }
+
+.td-sk { display: grid; gap: 12px; margin-bottom: 16px; }
+
+/* week rail: same look as the app's segmented pills */
+.sk-week {
+  display: grid; grid-template-columns: repeat(6, minmax(0, 1fr)); gap: 4px; padding: 4px;
+  border-radius: 22px; border: 1px solid var(--hair);
+  background: color-mix(in srgb, var(--surf-2) 70%, transparent);
+  -webkit-backdrop-filter: blur(14px) saturate(140%); backdrop-filter: blur(14px) saturate(140%);
+  box-shadow: inset 0 1px 0 var(--gl-hi);
+}
+.sk-key {
+  -webkit-appearance: none; appearance: none; display: grid; justify-items: center; gap: 1px;
+  padding: 9px 4px 8px; border: 0; border-radius: 18px; background: transparent;
+  color: var(--ink-soft); font: inherit; cursor: pointer;
+  transition: background .15s ease, color .15s ease, transform .15s ease;
+}
+.sk-key:hover { color: var(--ink); background: color-mix(in srgb, var(--seg-on) 45%, transparent); }
+.sk-key:active { transform: scale(.97); }
+.sk-key.is-on { background: var(--seg-on); color: var(--ink); box-shadow: 0 1px 3px rgba(0, 0, 0, .18); }
+.sk-key.is-past:not(.is-on) { opacity: .6; }
+.sk-key:focus-visible { outline: 2px solid var(--accent); outline-offset: 2px; }
+.sk-dow { font-size: 12px; font-weight: 500; }
+.sk-dnum { font-size: 18px; font-weight: 600; letter-spacing: -.01em; color: var(--ink); font-variant-numeric: tabular-nums; }
+.sk-key.is-today .sk-dnum::after {
+  content: ""; display: inline-block; width: 5px; height: 5px; margin-left: 5px;
+  border-radius: 50%; background: var(--accent); vertical-align: middle; position: relative; top: -1px;
+}
+.sk-cnt { font-size: 11.5px; }
+.sk-cnt b { font-weight: 600; color: var(--ink); }
+
+/* stat tiles */
+.sk-stats { display: grid; grid-template-columns: repeat(4, minmax(0, 1fr)); gap: 12px; }
+.sk-stat {
+  display: grid; gap: 6px; padding: 14px 18px 16px; border-radius: 20px; border: 1px solid var(--hair);
+  background: color-mix(in srgb, var(--tile) 75%, transparent);
+  -webkit-backdrop-filter: blur(14px); backdrop-filter: blur(14px);
+  box-shadow: inset 0 1px 0 var(--gl-hi);
+}
+.sk-lab { display: flex; align-items: center; gap: 8px; font-size: 13px; color: var(--ink-soft); }
+.sk-led { width: 7px; height: 7px; border-radius: 50%; background: var(--led, var(--ink-soft)); }
+.sk-stat[data-tone="free"] { --led: var(--free); }
+.sk-stat[data-tone="off"]  { --led: var(--error); }
+.sk-stat[data-tone="warn"] { --led: var(--busy); }
+.sk-stat[data-tone="acc"]  { --led: var(--accent); }
+.sk-num { font-size: 30px; font-weight: 600; line-height: 1.1; letter-spacing: -.03em; font-variant-numeric: tabular-nums; color: var(--ink); }
+
+/* next class plate */
+.sk-next {
+  display: grid; grid-template-columns: minmax(0, 1fr) minmax(200px, 270px); gap: 20px; align-items: center;
+  padding: 18px 22px; border-radius: 24px; border: 1px solid var(--hair);
+  background:
+    radial-gradient(120% 140% at 0% 0%, color-mix(in srgb, var(--accent) 9%, transparent), transparent 58%),
+    color-mix(in srgb, var(--tile) 78%, transparent);
+  -webkit-backdrop-filter: blur(16px) saturate(140%); backdrop-filter: blur(16px) saturate(140%);
+  box-shadow: inset 0 1px 0 var(--gl-hi);
+}
+.sk-next.is-live { border-color: rgba(233, 113, 79, .5); }
+.sk-eng { font-size: 13px; font-weight: 500; color: var(--ink-soft); }
+.sk-next-t { margin: 4px 0 2px; font-size: 22px; font-weight: 600; letter-spacing: -.02em; }
+.sk-lcd { display: grid; gap: 10px; padding-left: 20px; border-left: 1px solid var(--hair); }
+.sk-lcd-t { font-size: 15px; font-weight: 600; font-variant-numeric: tabular-nums; color: var(--ink); }
+.sk-next.is-live .sk-lcd-t { color: var(--busy); }
+.sk-groove { display: block; height: 6px; overflow: hidden; border-radius: 99px; background: var(--surf-2); }
+.sk-groove i { display: block; height: 100%; border-radius: 99px; background: var(--accent); transition: width .6s ease; }
+
+/* empty state button */
+.td-empty .td-btn { justify-self: center; margin-top: 10px; }
+
+/* template chips in the sheets */
+.td-tpls { display: flex; flex-wrap: wrap; gap: 8px; margin: 0 0 16px; }
+.td-tpl {
+  padding: 6px 12px; font: inherit; font-size: 12.5px; color: var(--ink-soft); cursor: pointer;
+  background: var(--surf-2); border: 1px solid var(--hair); border-radius: 999px;
+  transition: background .15s ease, color .15s ease, border-color .15s ease, transform .15s ease;
+}
+.td-tpl:hover { color: var(--ink); border-color: var(--hair-strong); }
+.td-tpl:active { transform: scale(.96); }
+
+/* bottom sheet: light glass */
+.td-back { -webkit-backdrop-filter: blur(6px); backdrop-filter: blur(6px); }
+.td-sheet {
+  background: color-mix(in srgb, var(--surf) 90%, transparent);
+  -webkit-backdrop-filter: blur(18px) saturate(140%); backdrop-filter: blur(18px) saturate(140%);
+  box-shadow: inset 0 1px 0 var(--gl-hi);
+}
+
+@media (max-width: 760px) {
+  .sk-stats { grid-template-columns: repeat(2, minmax(0, 1fr)); }
+  .sk-next { grid-template-columns: 1fr; }
+  .sk-lcd { padding: 14px 0 0; border-left: 0; border-top: 1px solid var(--hair); }
+}
+@media (max-width: 480px) {
+  .sk-cnt em { display: none; }
+}
+@media (prefers-reduced-motion: reduce) {
+  .sk-key, .td-tpl, .sk-groove i { transition: none; }
+}
+/* ---- dashboard layout: classes (2 columns) + My posts beside it ---- */
+@media (min-width: 1101px) {
+  #screen-dashboard .split-even {
+    display: grid;
+    grid-template-columns: minmax(0, 1.9fr) minmax(300px, 1fr);
+    gap: 24px;
+    align-items: start;
+  }
+  /* My posts stays in view while the class list scrolls */
+  #screen-dashboard .split-even > .panel:last-child { position: sticky; top: 24px; }
+}
+@media (max-width: 1100px) {
+  #screen-dashboard .split-even { display: grid; grid-template-columns: minmax(0, 1fr); gap: 18px; }
+}
+
+/* class cards in two columns (one column on phones) */
+#screen-dashboard .split-even > .panel:first-child .td-list {
+  grid-template-columns: repeat(auto-fill, minmax(250px, 1fr));
+  gap: 12px;
+  align-items: stretch;
+}
+#screen-dashboard .split-even > .panel:first-child .td-empty { grid-column: 1 / -1; }
+
+/* denser cards: time and status on one row, buttons side by side at the bottom */
+#screen-dashboard .td-card { display: flex; flex-direction: column; padding: 14px 16px; }
+#screen-dashboard .td-top { flex-wrap: nowrap; }
+#screen-dashboard .td-state { font-size: 12.5px; white-space: nowrap; }
+#screen-dashboard .td-subject { margin-top: 8px; font-size: 15px; line-height: 1.3; }
+#screen-dashboard .td-meta { font-size: 12.5px; line-height: 1.45; }
+#screen-dashboard .td-actions { flex-wrap: nowrap; gap: 8px; margin-top: auto; padding-top: 12px; }
+#screen-dashboard .td-actions .td-btn { flex: 1 1 0; padding: 8px 6px; font-size: 12.5px; text-align: center; white-space: nowrap; }
+/* ===== flat near-black background for the whole app (dark theme) ===== */
+html[data-theme="dark"],
+html[data-theme="dark"] body[data-screen] {
+  background: #0a0a0a !important;
+  background-image: none !important;
+  background-attachment: scroll !important;
+}
+
+/* switch off any light blobs / gradients painted behind the page */
+html[data-theme="dark"] body[data-screen]::before,
+html[data-theme="dark"] body[data-screen]::after,
+html[data-theme="dark"] html::before,
+html[data-theme="dark"] .shell::before,
+html[data-theme="dark"] .shell::after,
+html[data-theme="dark"] .main::before,
+html[data-theme="dark"] .main::after {
+  content: none !important;
+  background: none !important;
+  display: none !important;
+}
+
+/* panels and tiles: one step lighter than the page, so contrast comes from layers, not glow */
+html[data-theme="dark"],
+html[data-theme="dark"] body[data-screen] {
+  background: #0e0e0e !important;
+  background-image: none !important;
+  background-attachment: scroll !important;
+}
+html[data-theme="dark"] body[data-screen] .panel {
+  background: #151515;
+  border-color: rgba(255, 255, 255, .07);
+}
+html[data-theme="dark"] body[data-screen] {
+  --tile: #1c1c1c;
+  --surf: #171717;
+  --surf-2: #222222;
+}
+/* ---- app footer: calmer credits ---- */
+html[data-theme] .site-footer .nc-foot-bottom {
+  display: grid; gap: 14px; margin-top: 16px; padding-top: 14px; border-top: 1px solid var(--hair);
+}
+html[data-theme] .site-footer .nc-foot-note { margin: 0; font-size: 12px; line-height: 1.55; color: var(--ink-soft); }
+
+html[data-theme] .site-footer .nc-foot-credit {
+  display: flex; flex-wrap: wrap; align-items: center; justify-content: space-between; gap: 10px 16px; margin: 0;
+}
+html[data-theme] .site-footer .nc-foot-by { margin: 0; font-size: 12.5px; color: var(--ink-soft); }
+html[data-theme] .site-footer .nc-foot-by strong { color: var(--ink); font-weight: 500; }
+
+.nc-foot-flag {
+  display: inline-flex; align-items: center; gap: 7px; padding: 5px 12px 5px 9px;
+  border-radius: 999px; font-size: 12px; font-weight: 500; line-height: 1.3; color: var(--ink-soft);
+  border: 1px solid color-mix(in srgb, var(--accent) 32%, var(--hair));
+  background: color-mix(in srgb, var(--accent) 7%, transparent);
+}
+.nc-foot-flag svg { flex: none; color: var(--accent); }
+
+@media (max-width: 600px) {
+  html[data-theme] .site-footer .nc-foot-credit { flex-direction: column; align-items: flex-start; }
+}
+.flag-btn { margin-top: 8px; padding: 0; border: 0; background: none; color: var(--ink-soft); font: inherit; font-size: 12px; text-decoration: underline; text-underline-offset: 3px; cursor: pointer; align-self: start; justify-self: start; }
+.flag-btn:hover:not(:disabled) { color: var(--ink); }
+.flag-btn:disabled { text-decoration: none; cursor: default; }
+.td-flag { margin-left: 6px; padding: 2px 8px; border-radius: 999px; font-size: 11px; font-weight: 500; color: var(--error); background: color-mix(in srgb, var(--error) 14%, transparent); }
+.td-mod { margin-top: 16px; }

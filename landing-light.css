@@ -1,0 +1,65 @@
+/* ================================================================
+   landing-light.css  -  warm paper + one peach accent for the landing page (light mode)
+   Load it LAST, after landing.css and landing-dark.css:
+     <link rel="stylesheet" href="landing.css">
+     <link rel="stylesheet" href="landing-dark.css">
+     <link rel="stylesheet" href="landing-light.css">
+   Applies only when the visitor's system is in light mode (as before).
+   landing-dark.css also recolours the dark dashboard preview for both modes,
+   so keep it loaded. To undo: remove the <link>.
+
+   Peach is only a FILL here (dark text on it). Peach-coloured text uses #B04A2B.
+   ================================================================ */
+@media (prefers-color-scheme: light) {
+    :root {
+        --bg: #FBF9F7;
+        --ink: #1D1918;
+        --muted: #6B605B;
+        --line: #E8E2DD;
+        --soft: #F4F0ED;
+        --soft-2: #F8F5F2;
+        --ring: #C9BFB8;
+        --green: #D2603E;            /* dial dot, trail and lit ticks (name kept so landing.js needs no change) */
+        --ok: #2F6B4F;
+        --err: #B3261E;
+        --sans: 'Inter', 'IBM Plex Sans', system-ui, -apple-system, 'Segoe UI', sans-serif;
+        --hair: rgba(29, 25, 24, 0.09);
+        --hair-strong: rgba(29, 25, 24, 0.18);
+        --lift: 0 1px 2px rgba(29, 25, 24, 0.04), 0 14px 30px -20px rgba(29, 25, 24, 0.2);
+    }
+    body { -webkit-font-smoothing: antialiased; }
+    ::selection { background: rgba(224, 123, 91, 0.3); }
+
+    .hero h1, .section-head h2 { font-weight: 500; letter-spacing: -0.035em; }
+    .pillx { background: #FFFFFF; border-color: var(--hair-strong); box-shadow: 0 1px 2px rgba(29, 25, 24, 0.05); }
+
+    .finder { background: #FFFFFF; border-color: var(--hair-strong); box-shadow: var(--lift); }
+    .finder::before { background: linear-gradient(90deg, #D9633F, #E07B5B, #F2A98C, #D9633F); background-size: 300% 100%; }
+    .finder:focus-within { border-color: rgba(210, 96, 62, 0.7); }
+    .finder:focus-within::before { opacity: 0.22; }
+    .finder-btn {
+        background: #E8845F; color: #1D1918; font-weight: 600;
+        box-shadow: inset 0 1px 0 rgba(255, 255, 255, 0.35);
+        transition: background 0.2s ease, transform 0.15s ease;
+    }
+    .finder-btn:hover { background: #DD7050; transform: translateY(-1px); }
+
+    .chip, .tags li { background: #FFFFFF; border-color: var(--hair); }
+    .btn-google { background: #FFFFFF; border-color: var(--hair-strong); }
+    .btn-google:hover { background: var(--soft); border-color: rgba(29, 25, 24, 0.32); }
+
+    .feature {
+        background: #FFFFFF; border: 1px solid var(--hair); border-radius: 22px; box-shadow: 0 1px 2px rgba(29, 25, 24, 0.04);
+        transition: transform 0.25s cubic-bezier(0.2, 0.8, 0.2, 1), border-color 0.25s ease, box-shadow 0.25s ease;
+    }
+    .feature:hover { transform: translateY(-3px); border-color: rgba(224, 123, 91, 0.6); box-shadow: 0 22px 40px -26px rgba(176, 74, 43, 0.45); }
+    .feature:hover .f-link { color: #B04A2B; }
+
+    .section-alt { background: var(--soft-2); border-color: var(--hair); }
+    .coverage, .cov-row { border-color: var(--hair); }
+    .signin { background: #FFFFFF; border-color: var(--hair); border-radius: 22px; box-shadow: var(--lift); }
+
+    .demo-frame { box-shadow: 0 50px 90px -44px rgba(29, 25, 24, 0.55), 0 0 0 1px rgba(29, 25, 24, 0.06); }
+    .footer { background: transparent; border-top-color: var(--hair); }
+    .footer-bottom { border-top-color: var(--hair); }
+}

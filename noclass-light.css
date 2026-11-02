@@ -1,0 +1,187 @@
+/* ================================================================
+   noclass-light.css  -  warm paper + one peach accent (light theme only)
+   Load it LAST, after noclass-dark.css:
+     <link rel="stylesheet" href="style.css">
+     <link rel="stylesheet" href="sidebar.css">
+     <link rel="stylesheet" href="noclass-dark.css">
+     <link rel="stylesheet" href="noclass-light.css">
+   Scoped to html[data-theme="light"]; dark mode is untouched.
+   To undo: remove the <link>. Nothing in your own CSS is modified.
+
+   Rules of the palette
+   - Peach (#E07B5B) is only ever a FILL, with dark text on it. On white it is
+     only 2.9:1, so any peach-coloured TEXT uses the deeper #B04A2B (5.4:1).
+   - Depth comes from white panels on warm paper and 1px hairlines, not glows.
+   - The sidebar (and phone top bar) stay dark in light mode, as in the original project.
+   ================================================================ */
+
+/* ---- 1. tokens ---- */
+html[data-theme="light"] {
+  --paper: #F5F2EF;  --panel: #FFFFFF;
+  --ink: #1D1918;    --ink-soft: #6B605B;
+  --line: #E6DFDA;   --line-soft: #EFEAE6;
+  --field-bg: #FFFFFF;  --field-line: #9A908B;
+  --forest: #3A322F;  --forest-dark: #1D1918;  --on-accent: #1D1918;
+  --mint: #F4EEEA;    --mint-line: #E6DFDA;
+  --amber: #8A5A0A;   --amber-bg: #FBF2E2;  --amber-bar: #B7862F;
+  --error: #B3261E;
+  --sidebar-bg: #161515;  --sidebar-fg: #F2ECE8;          /* sidebar + phone top bar stay dark */
+  --sidebar-muted: rgba(242, 236, 232, 0.66);
+  --sidebar-line: rgba(242, 236, 232, 0.10);
+  --sidebar-hover: rgba(242, 236, 232, 0.06);
+  --footer-bg: transparent;  --footer-fg: #6B605B;  --footer-muted: #6B605B;
+  --tabbar-bg: #FFFFFF;  --theme-meta: #F5F2EF;
+  --g5: #1D1918;
+
+  --accent: #E07B5B;        /* fills only */
+  --accent-hi: #D96B48;     /* fill hover */
+  --accent-line: #D2603E;   /* thin graphics: focus, selected-time line */
+  --accent-text: #B04A2B;   /* peach as text */
+  --bar: #8F837D;
+  --busy-fg: #5E5450;  --busy-bg: #EFEAE6;  --busy-bar: #B9AFA9;
+  --hair: rgba(29, 25, 24, 0.09);
+  --hair-strong: rgba(29, 25, 24, 0.18);
+  --sans: 'Inter', 'IBM Plex Sans', system-ui, -apple-system, 'Segoe UI', sans-serif;
+  --serif: 'Inter', 'IBM Plex Sans', system-ui, -apple-system, 'Segoe UI', sans-serif;
+  --r-sm: 8px; --r-md: 12px; --r-lg: 22px;
+  --lift: 0 1px 2px rgba(29, 25, 24, 0.04), 0 14px 30px -20px rgba(29, 25, 24, 0.2);
+  accent-color: var(--accent-line);
+}
+html[data-theme="light"] body { -webkit-font-smoothing: antialiased; }
+html[data-theme="light"] ::selection { background: rgba(224, 123, 91, 0.3); }
+html[data-theme="light"] :focus-visible { outline-color: var(--accent-line); }
+html[data-theme="light"] .theme-toggle-compact { border-color: rgba(242, 236, 232, 0.22); color: var(--sidebar-fg); }
+html[data-theme="light"] .stat-number { color: var(--accent-text); }
+
+/* ---- 2. type ---- */
+html[data-theme="light"] .hero-title,
+html[data-theme="light"] .page-title { font-family: var(--sans); font-weight: 500; letter-spacing: -0.035em; color: var(--ink); }
+html[data-theme="light"] .panel-head h2 { font-family: var(--sans); font-weight: 500; font-size: 18px; letter-spacing: -0.015em; }
+html[data-theme="light"] .brand-name,
+html[data-theme="light"] .footer-brand { font-family: var(--sans); font-weight: 600; letter-spacing: -0.02em; }
+html[data-theme="light"] .kicker,
+html[data-theme="light"] .hero-sub,
+html[data-theme="light"] .page-sub,
+html[data-theme="light"] .when-field label,
+html[data-theme="light"] .when-text { color: var(--ink-soft); }
+
+/* ---- 3. date + time bar ---- */
+html[data-theme="light"] .whenbar {
+  background: rgba(255, 255, 255, 0.8);
+  -webkit-backdrop-filter: blur(14px) saturate(120%); backdrop-filter: blur(14px) saturate(120%);
+  border-bottom: 1px solid var(--hair);
+}
+
+/* ---- 4. fields + buttons ---- */
+html[data-theme="light"] .input,
+html[data-theme="light"] .select,
+html[data-theme="light"] .whenbar input {
+  background: #FFFFFF; border: 1px solid var(--field-line); border-radius: var(--r-md);
+  transition: border-color .18s ease, box-shadow .18s ease;
+}
+html[data-theme="light"] .input:hover,
+html[data-theme="light"] .select:hover,
+html[data-theme="light"] .whenbar input:hover { border-color: #6B605B; }
+html[data-theme="light"] .input:focus,
+html[data-theme="light"] .select:focus,
+html[data-theme="light"] .whenbar input:focus { border-color: var(--accent-line); box-shadow: 0 0 0 4px rgba(224, 123, 91, 0.2); }
+
+html[data-theme="light"] .btn { border-radius: var(--r-md); transition: transform .15s ease, box-shadow .2s ease, background .2s ease, border-color .2s ease; }
+html[data-theme="light"] .btn-primary {
+  background: var(--accent); color: #1D1918; border-color: transparent;
+  box-shadow: inset 0 1px 0 rgba(255, 255, 255, 0.35), 0 6px 16px -8px rgba(176, 74, 43, 0.55);
+}
+html[data-theme="light"] .btn-primary:hover { background: var(--accent-hi); color: #1D1918; transform: translateY(-1px); }
+html[data-theme="light"] .btn-primary:active { transform: translateY(0); }
+html[data-theme="light"] .btn-outline { background: #FFFFFF; color: var(--ink); border-color: var(--hair-strong); }
+html[data-theme="light"] .btn-outline:hover { background: #F4EEEA; border-color: rgba(29, 25, 24, 0.32); }
+
+html[data-theme="light"] .room-filter,
+html[data-theme="light"] .seg { border-color: var(--hair-strong); background: #FFFFFF; }
+html[data-theme="light"] .room-filter { color: var(--ink-soft); transition: background .18s ease, color .18s ease, border-color .18s ease; }
+html[data-theme="light"] .room-filter:hover { color: var(--ink); border-color: rgba(29, 25, 24, 0.32); }
+html[data-theme="light"] .room-filter[aria-pressed="true"],
+html[data-theme="light"] .seg button[aria-pressed="true"] { background: rgba(224, 123, 91, 0.14); color: var(--accent-text); border-color: rgba(224, 123, 91, 0.55); }
+html[data-theme="light"] .seg button + button { border-left-color: var(--hair-strong); }
+
+/* ---- 5. panels + room tiles ---- */
+html[data-theme="light"] .panel { background: #FFFFFF; border: 1px solid var(--hair); border-radius: var(--r-lg); box-shadow: var(--lift); }
+@media (min-width: 901px) { html[data-theme="light"] .panel { padding: 28px; } }
+html[data-theme="light"] .hero-stat { border-left-color: var(--hair-strong); }
+
+html[data-theme="light"] .room-cards { gap: 14px; }
+html[data-theme="light"] .room-tile,
+html[data-theme="light"] .room-tile.is-busy {
+  padding: 18px; gap: 14px; background: #FCFAF8;
+  border: 1px solid var(--hair); border-radius: 18px;
+  transition: transform .22s cubic-bezier(.2, .8, .2, 1), border-color .22s ease, box-shadow .22s ease;
+}
+html[data-theme="light"] .room-tile.is-free { background: radial-gradient(120% 80% at 0% 0%, rgba(224, 123, 91, 0.09), transparent 55%), #FFFDFC; }
+html[data-theme="light"] .room-tile:hover { transform: translateY(-2px); border-color: rgba(29, 25, 24, 0.22); box-shadow: 0 14px 28px -20px rgba(29, 25, 24, 0.3); }
+html[data-theme="light"] .room-tile.is-free:hover { border-color: rgba(224, 123, 91, 0.6); box-shadow: 0 14px 28px -20px rgba(176, 74, 43, 0.45); }
+html[data-theme="light"] .room-status { font-size: 10px; padding: 5px 10px; letter-spacing: 0.7px; }
+html[data-theme="light"] .status-free { background: #E8845F; color: #1D1918; box-shadow: inset 0 1px 0 rgba(255, 255, 255, 0.35); }
+html[data-theme="light"] .status-busy { background: transparent; color: var(--busy-fg); box-shadow: inset 0 0 0 1px var(--hair-strong); }
+html[data-theme="light"] .tile-class-info { border-top-color: var(--hair); padding-top: 14px; }
+html[data-theme="light"] .tile-subject { font-weight: 600; letter-spacing: -0.01em; }
+html[data-theme="light"] .tile-time { background: #EFEAE6; color: var(--ink); border-radius: 8px; padding: 4px 9px; }
+html[data-theme="light"] .tag-lab { background: var(--amber-bg); color: var(--amber); border-radius: 6px; }
+html[data-theme="light"] .tile-note { background: #F7F3F0; border: 1px solid var(--hair); border-radius: 12px; transition: border-color .18s ease, background .18s ease; }
+html[data-theme="light"] .tile-note:hover { background: #F1ECE8; border-color: var(--hair-strong); }
+html[data-theme="light"] .tile-note-link { color: var(--ink); }
+html[data-theme="light"] .tile-report:hover,
+html[data-theme="light"] .tile-report:focus-visible,
+html[data-theme="light"] .link-btn:hover,
+html[data-theme="light"] .link-btn:focus-visible { color: var(--accent-text); }
+
+/* ---- 6. day view ---- */
+html[data-theme="light"] .g-hours span { border-left-color: var(--hair); }
+html[data-theme="light"] .g-row { border-top-color: rgba(29, 25, 24, 0.06); }
+html[data-theme="light"] .g-cell { border-left-color: rgba(29, 25, 24, 0.05); }
+html[data-theme="light"] .g-label { background: #FFFFFF; }
+html[data-theme="light"] .g-bar { background: var(--bar); border-radius: 6px; }
+html[data-theme="light"] .g-bar.lab { background: var(--amber-bar); }
+html[data-theme="light"] .g-now { background: var(--accent-line); box-shadow: none; }
+html[data-theme="light"] .sw-class { background: var(--bar); }
+html[data-theme="light"] .sw-now { background: var(--accent-line); }
+
+/* ---- 7. teachers, updates, lost and found ---- */
+html[data-theme="light"] .teacher-list,
+html[data-theme="light"] .notice-list { border-top-color: var(--hair); }
+html[data-theme="light"] .teacher-row,
+html[data-theme="light"] .notice { border-bottom-color: var(--hair); }
+html[data-theme="light"] .t-class + .t-class { border-top-color: var(--hair); }
+html[data-theme="light"] .t-room { color: var(--accent-text); }
+html[data-theme="light"] .form-status { color: var(--ink-soft); }
+html[data-theme="light"] .notice-tag.found { background: rgba(224, 123, 91, 0.14); color: var(--accent-text); }
+html[data-theme="light"] .note { background: #FFFFFF; border: 1px solid var(--hair); border-radius: 16px; box-shadow: var(--lift); }
+
+/* ---- 8. footer (was a dark green block) ---- */
+html[data-theme="light"] .site-footer { background: transparent; border-top: 1px solid var(--hair); }
+html[data-theme="light"] .footer-bottom { border-top-color: var(--hair); }
+html[data-theme="light"] .site-footer a { color: var(--ink); }
+
+/* ---- 9. phone: top bar + bottom tab bar ---- */
+@media (max-width: 900px) {
+  html[data-theme="light"] .sidebar { border-top: 1px solid var(--hair); }
+  html[data-theme="light"] .nav-link[aria-current="page"] { background: rgba(224, 123, 91, 0.14); color: var(--accent-text); border-top-color: var(--accent-line); }
+}
+
+/* ---- 10. floating sidebar (desktop): dark card, same as dark mode ---- */
+@media (min-width: 901px) {
+  html[data-theme="light"] {
+    --sb-bg: #101013; --sb-ink: #F2ECE8; --sb-dim: rgba(242, 236, 232, 0.62);
+    --sb-tick: rgba(242, 236, 232, 0.16); --sb-acc: #E07B5B;
+  }
+  html[data-theme="light"] .sidebar {
+    background: linear-gradient(180deg, #1A1817 0%, #131211 100%); border-radius: 26px;
+    box-shadow: 0 28px 56px -30px rgba(29, 25, 24, 0.55), 0 0 0 1px rgba(29, 25, 24, 0.12), inset 0 1px 0 rgba(255, 255, 255, 0.06);
+  }
+  html[data-theme="light"] .sidebar .nav-link[aria-current="page"] { background: none; color: var(--sb-acc); }
+  html[data-theme="light"] .sidebar .nav-sub.is-on { color: var(--sb-acc); }
+  html[data-theme="light"] .nav-link[aria-current="page"]::before,
+  html[data-theme="light"] .nav-sub.is-on::before { box-shadow: 0 0 8px rgba(224, 123, 91, 0.5); }
+  html[data-theme="light"] .sidebar .nav-count,
+  html[data-theme="light"] .sidebar .nav-link[aria-current="page"] .nav-count { background: var(--sb-ink); color: #111111; }
+  html[data-theme="light"] .sb-sound[aria-pressed="true"] { color: var(--sb-ink); }
+}

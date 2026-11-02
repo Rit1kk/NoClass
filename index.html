@@ -1,106 +1,339 @@
 <!DOCTYPE html>
 <html lang="en">
+
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>NoClass — MITS Gwalior</title>
-  <link rel="stylesheet" href="style.css">
+  <title>NoClass — Know which room is free</title>
+  <meta name="description"
+    content="Free classrooms, teacher locations, student updates and a lost and found, built from the official MITS Gwalior timetable.">
+  <meta name="theme-color" content="#FFFFFF">
+  <link rel="icon" type="image/png" href="favicon.png">
+  <script>
+    /* Motion is on unless the visitor asked for reduced motion.
+       If the motion script does not load within 4 seconds, everything is shown normally. */
+    (function () {
+      var d = document.documentElement;
+      if (!matchMedia("(prefers-reduced-motion: reduce)").matches) {
+        d.classList.add("motion");
+        setTimeout(function () { if (!window.__motionReady) d.classList.remove("motion"); }, 4000);
+      }
+    })();
+  </script>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link
+    href="https://fonts.googleapis.com/css2?family=IBM+Plex+Mono:wght@400;500&family=IBM+Plex+Sans:wght@400;500;600&display=swap&family=Inter:wght@400;500;600"
+    rel="stylesheet">
+  <link rel="stylesheet" href="landing.css">
+  <link rel="stylesheet" href="landing-dark.css">
+  <link rel="stylesheet" href="landing-light.css">
+  <link rel="stylesheet" href="landing-footer.css">
+  <link rel="stylesheet" href="myclass.css">
 </head>
-<body>
 
-  <!-- TOP NAV BAR -->
-  <header class="navbar">
-    <h1 class="logo">NoClass</h1>
-    <p class="tagline">MITS Gwalior · A Block</p>
+<body class="home">
+  <a class="skip-link" href="#main">Skip to content</a>
+
+  <!-- ============ NAV ============ -->
+  <header class="nav" id="nav">
+    <div class="nav-inner">
+
+      <a class="nav-brand" href="index.html" aria-label="NoClass home">
+        <img class="brand-mark" src="logo.png" alt="" width="28" height="28">
+        <span class="brand-word kinetic-brand"><span class="kinetic-brand__letter" aria-hidden="true">N</span><span
+            class="kinetic-brand__letter" aria-hidden="true">o</span><span class="kinetic-brand__letter"
+            aria-hidden="true">C</span><span class="kinetic-brand__letter" aria-hidden="true">l</span><span
+            class="kinetic-brand__letter" aria-hidden="true">a</span><span class="kinetic-brand__letter"
+            aria-hidden="true">s</span><span class="kinetic-brand__letter" aria-hidden="true">s</span></span>
+      </a>
+
+      <nav class="nav-links" aria-label="Main">
+        <a href="#features">Features</a>
+        <a href="#data">Data</a>
+        <a href="#teachers">For teachers</a>
+        <a href="https://github.com/Rit1kk/NoClass" target="_blank" rel="noopener">GitHub</a>
+      </nav>
+      <div class="nav-actions">
+        <button type="button" class="cn-pill" id="cn-pill" aria-expanded="false" aria-controls="cn-panel">
+          <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"
+            stroke-linecap="round" stroke-linejoin="round">
+            <path d="M22 10 12 5 2 10l10 5 10-5z" />
+            <path d="M6 12v5c3 2 9 2 12 0v-5" />
+          </svg>
+          <span id="cn-label">My class</span>
+          <svg class="cn-chev" width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor"
+            stroke-width="2.6" stroke-linecap="round" stroke-linejoin="round">
+            <path d="m6 9 6 6 6-6" />
+          </svg>
+        </button>
+        <a class="nav-login" href="#teachers">Staff sign in</a>
+        <a class="btn btn-dark dashboard-pulse-btn" href="app.html">
+          Open dashboard
+        </a>
+      </div>
+    </div>
   </header>
 
-  <!-- MAIN CONTENT AREA -->
-  <main class="container">
+  <main id="main">
 
-    <!-- DATE & TIME PICKER -->
-    <section class="card" id="search-section">
-      <h2>Find Free Classrooms</h2>
-      <label for="date-input">Select Date</label>
-      <input type="date" id="date-input">
-      <label for="time-input">Select Time</label>
-      <input type="time" id="time-input">
-      <button id="search-btn">Check Availability</button>
-    </section>
+    <!-- ============ HERO ============ -->
+    <section class="hero" id="hero">
+      <svg class="dial" id="dial" viewBox="0 0 1700 860" aria-hidden="true">
+        <path class="arc" d="M20 860A830 830 0 0 1 1680 860" />
+        <g id="ticks"></g>
+        <g id="trail"></g>
+        <circle class="dot" id="dot" r="3.6" />
+      </svg>
+      <div class="hero-inner">
+        <div class="pillwrap rise" id="pillwrap" style="--i:0"></div>
+        <h1 class="rise" style="--i:1">Know which room is free, and where every teacher is.</h1>
+        <p class="hero-sub rise" style="--i:3">Free classrooms, teacher locations, student updates and a lost and found,
+          built from the official MITS Gwalior timetable.</p>
 
-    <!-- RESULTS AREA -->
-    <section id="results-section">
-      <h2 id="results-title"></h2>
-      <div id="results-container">
-        <!-- Free rooms will appear here -->
+        <form class="finder rise" id="finder" style="--i:4" autocomplete="off">
+          <label class="finder-field">
+            <svg class="i" viewBox="0 0 16 16" aria-hidden="true">
+              <circle cx="8" cy="5.5" r="2.5" />
+              <path d="M3 13.2c.6-2.4 2.5-3.5 5-3.5s4.4 1.1 5 3.5" />
+            </svg>
+            <span class="visually-hidden">Teacher name</span>
+            <input type="text" id="f-teacher" placeholder="Search a teacher, e.g. Shipra Shukla" required>
+          </label>
+          <button type="submit" class="finder-btn">
+            <svg class="i" viewBox="0 0 16 16" aria-hidden="true">
+              <path d="M5 3.2v9.6L12.6 8z" />
+            </svg>
+            Find teacher
+          </button>
+        </form>
+        <section class="classpick rise" id="classpick" style="--i:5" aria-label="Choose your class"></section>
+
+        <p class="chip rise" style="--i:5">
+          <svg class="i" viewBox="0 0 16 16" aria-hidden="true">
+            <path d="M2.5 5.5 8 3l5.5 2.5v5L8 13l-5.5-2.5z" />
+            <path d="M2.5 5.5 8 8l5.5-2.5M8 8v5" />
+          </svg>
+          <span class="chip-long">Official MITS timetable · </span><b data-count="rooms">31</b> rooms · <b
+            data-count="teachers">71</b> teachers
+        </p>
+        <p class="rise" style="--i:6"><a class="hero-link" href="#teachers">I’m a teacher →</a></p>
       </div>
     </section>
 
-    <!-- REPORTS FOR SELECTED DATE -->
-<section id="reports-section" style="display:none;">
-  <h2 id="reports-title">Recent Reports</h2>
-  <div id="reports-container"></div>
-</section>
+    <!-- ============ DEMO ============ -->
+    <section class="demo" id="demo" aria-label="Preview of the student dashboard">
+      <div class="demo-wrap">
+        <div class="demo-tilt" id="demo-tilt">
+          <div class="demo-frame">
+            <div class="demo-media">
+              <video class="demo-video" id="demo-video" width="1600" height="1000" autoplay muted loop playsinline
+                preload="auto" aria-label="Screen recording of the NoClass dashboard">
+                <source src="demo.mp4" type="video/mp4">
+              </video>
+            </div>
+          </div>
+        </div>
+        <p class="demo-caption">Sample data. The live dashboard uses the real timetable.</p>
+      </div>
+    </section>
 
-    <!-- TEACHER SEARCH -->
-<section class="card" id="teacher-section">
-  <h2>Find a Teacher</h2>
-  <label for="teacher-input">Teacher Name</label>
-  <input type="text" id="teacher-input" placeholder="e.g. shradhha dubey">
-  <button id="teacher-btn">Find Teacher</button>
-</section>
+    <!-- ============ FEATURES ============ -->
+    <section class="section" id="features">
+      <div class="wrap">
+        <div class="section-head reveal">
+          <p class="eyebrow">Features</p>
+          <h2>One page for the whole timetable.</h2>
+          <p>Everything students ask each other in the corridor, answered from the official MITS timetable.</p>
+        </div>
+        <div class="features">
+          <a class="feature reveal" style="--i:0" href="app.html#rooms">
+            <span class="f-num">01</span>
+            <h3>Free rooms</h3>
+            <p>Pick any date and time and see which classrooms have no class scheduled. A day view shows every room,
+              hour by hour.</p>
+            <span class="f-link">Open rooms →</span>
+          </a>
+          <a class="feature reveal" style="--i:1" href="app.html#teachers">
+            <span class="f-num">02</span>
+            <h3>Find a teacher</h3>
+            <p>Search a name to see the room, the subject and the next class. Shared classes show both teachers.</p>
+            <span class="f-link">Find a teacher →</span>
+          </a>
+          <a class="feature reveal" style="--i:2" href="app.html#updates">
+            <span class="f-num">03</span>
+            <h3>Updates</h3>
+            <p>Students report a cancelled class, an absent teacher or a room change for a date, so others know before
+              they walk over.</p>
+            <span class="f-link">See updates →</span>
+          </a>
+          <a class="feature reveal" style="--i:3" href="app.html#lostfound">
+            <span class="f-num">04</span>
+            <h3>Lost &amp; Found</h3>
+            <p>Leave a note for a classroom, or check the board before you go looking.</p>
+            <span class="f-link">Open the board →</span>
+          </a>
+        </div>
+      </div>
+    </section>
 
-<!-- TEACHER RESULTS -->
-<section id="teacher-results-section">
-  <h2 id="teacher-results-title"></h2>
-  <div id="teacher-results-container"></div>
-</section>
+    <!-- ============ DATA ============ -->
+    <section class="section section-alt" id="data">
+      <div class="wrap">
+        <div class="section-head reveal">
+          <p class="eyebrow">Data</p>
+          <h2>Built from the official timetable.</h2>
+          <p>Every class comes from the timetable PDFs published by MITS Gwalior for the July–December 2026 session,
+            turned into records that are quick to search.</p>
+        </div>
 
-<!-- REPORT AN ISSUE -->
-<section class="card" id="report-section">
-  <h2>Report an Issue</h2>
-  <label for="report-room">Room</label>
-  <select id="report-room"></select>
-  <label for="report-date">Date</label>
-  <input type="date" id="report-date">
-  <label for="report-type">What happened?</label>
-  <select id="report-type">
-    <option value="cancelled">Class Cancelled</option>
-    <option value="absent">Teacher Absent</option>
-    <option value="room-changed">Room Changed</option>
-  </select>
-  <label for="report-note">Note (optional)</label>
-  <input type="text" id="report-note" placeholder="e.g. moved to M203">
-  <button id="report-btn">Submit Report</button>
-  <p id="report-status" class="msg" style="display:none;"></p>
-</section>
+        <div class="stats">
+          <div class="stat reveal" style="--i:0"><b data-count="rooms">31</b><span>Rooms and labs</span></div>
+          <div class="stat reveal" style="--i:1"><b data-count="teachers">71</b><span>Teachers</span></div>
+          <div class="stat reveal" style="--i:2"><b data-count="timetable">570</b><span>Scheduled classes</span></div>
+        </div>
 
-<!-- LOST & FOUND -->
-<section class="card" id="lostfound-section">
-  <h2>Lost & Found</h2>
-  <label for="lf-room">Room</label>
-  <select id="lf-room"></select>
-  <label for="lf-type">Type</label>
-  <select id="lf-type">
-    <option value="lost">Lost Something</option>
-    <option value="found">Found Something</option>
-  </select>
-  <label for="lf-desc">Description</label>
-  <input type="text" id="lf-desc" placeholder="e.g. blue water bottle near window">
-  <button id="lf-btn">Post</button>
-  <p id="lf-status" class="msg" style="display:none;"></p>
-</section>
+        <div class="coverage reveal">
+          <div class="cov-row"><span class="cov-label">Branches</span>
+            <ul class="tags">
+              <li>AI</li>
+              <li>AIR</li>
+              <li>AIDS</li>
+              <li>AIML</li>
+              <li>IoT</li>
+              <li>CST</li>
+              <li>CSBS</li>
+              <li>ECE</li>
+            </ul>
+          </div>
+          <div class="cov-row"><span class="cov-label">Semesters</span>
+            <ul class="tags">
+              <li>1</li>
+              <li>3</li>
+              <li>5</li>
+              <li class="tag-note">where available</li>
+            </ul>
+          </div>
+          <div class="cov-row"><span class="cov-label">Not collected</span>
+            <ul class="tags">
+              <li>Student accounts</li>
+              <li>Location tracking</li>
+              <li>Names on reports and notes</li>
+            </ul>
+          </div>
+        </div>
+      </div>
+    </section>
 
-<!-- LOST & FOUND FEED -->
-<section id="lostfound-results-section">
-  <h2>Recent Lost & Found</h2>
-  <div id="lostfound-results-container"></div>
-</section>
+    <!-- ============ TEACHERS ============ -->
+    <section class="section section-drift" id="teachers">
+      <canvas class="drift-canvas" id="drift-canvas" aria-hidden="true"></canvas>
+      <div class="wrap teachers">
+        <div class="section-head reveal">
+          <p class="eyebrow">For teachers</p>
+          <h2>Sign in with your institute account.</h2>
+          <p>Teachers sign in with Google, and access is limited to people on the staff list. Posting one-day updates,
+            such as a cancelled class or a room change notice.</p>
+        </div>
+
+        <div class="signin reveal" style="--i:1">
+          <div id="auth-out">
+            <p class="signin-title">Staff sign in</p>
+            <p class="signin-text">Use the Google account issued by your institute.</p>
+            <button type="button" id="staff-btn" class="btn btn-google">
+              <svg viewBox="0 0 48 48" width="18" height="18" aria-hidden="true">
+                <path fill="#EA4335"
+                  d="M24 9.5c3.54 0 6.71 1.22 9.21 3.6l6.85-6.85C35.9 2.38 30.47 0 24 0 14.62 0 6.51 5.38 2.56 13.22l7.98 6.19C12.43 13.72 17.74 9.5 24 9.5z" />
+                <path fill="#4285F4"
+                  d="M46.98 24.55c0-1.57-.15-3.09-.38-4.55H24v9.02h12.94c-.58 2.96-2.26 5.48-4.78 7.18l7.73 6c4.51-4.18 7.09-10.36 7.09-17.65z" />
+                <path fill="#FBBC05"
+                  d="M10.53 28.59c-.48-1.45-.76-2.99-.76-4.59s.27-3.14.76-4.59l-7.98-6.19C.92 16.46 0 20.12 0 24c0 3.88.92 7.54 2.56 10.78l7.97-6.19z" />
+                <path fill="#34A853"
+                  d="M24 48c6.48 0 11.93-2.13 15.89-5.81l-7.73-6c-2.15 1.45-4.92 2.3-8.16 2.3-6.26 0-11.57-4.22-13.47-9.91l-7.98 6.19C6.51 42.62 14.62 48 24 48z" />
+              </svg>
+              <span>Sign in with Google</span>
+            </button>
+            <p class="signin-note">Students do not need an account. <a href="app.html">Open the dashboard</a></p>
+          </div>
+          <div id="auth-in" hidden>
+            <p class="signin-label">Signed in as staff</p>
+            <p class="signed-name" id="signed-name"></p>
+            <p class="signed-email" id="signed-email"></p>
+            <a class="btn btn-dark btn-block" href="app.html#dashboard">Open dashboard</a>
+            <button type="button" id="signout-btn" class="btn btn-google btn-block">Sign out</button>
+            <p class="signin-note">You can post cancellations and notices from the dashboard.</p>
+          </div>
+          <p id="auth-status" class="auth-status" role="status" aria-live="polite" hidden></p>
+        </div>
+      </div>
+    </section>
 
   </main>
 
-  <!-- Firebase -->
-  <script type="module" src="firebase-config.js"></script>
-  <script type="module" src="app.js"></script>
+  <!-- ============ FOOTER ============ -->
+  <footer class="footer">
+    <div class="wrap">
+      <div class="ft-shell reveal">
+        <div class="ft-grid">
+          <div class="ft-brand">
+            <a class="nav-brand" href="index.html" aria-label="NoClass home"><span class="brand-mark"
+                aria-hidden="true">N</span><span class="brand-word">NoClass</span></a>
+            <div class="ft-credits">
+              <span class="ft-credits-label">Developed by</span>
+              <ul class="ft-people">
+                <li><strong>Ritik Baghel</strong><span>BTCB25O1106 · CSBS · Sem 3</span></li>
+                <li><strong>Vinay Gaur</strong><span>BTCB25O1144 · CSBS · Sem 3</span></li>
+              </ul>
+            </div>
+          </div>
+          <div class="ft-links">
+            <span class="brand-mark ft-tile" aria-hidden="true">N</span>
+            <div class="ft-cols">
+              <div>
+                <h3>Explore</h3>
+                <ul>
+                  <li><a href="app.html#rooms">Free rooms</a></li>
+                  <li><a href="app.html#teachers">Find a teacher</a></li>
+                  <li><a href="app.html#updates">Updates</a></li>
+                  <li><a href="app.html#lostfound">Lost &amp; Found</a></li>
+                </ul>
+              </div>
+              <div>
+                <h3>Project</h3>
+                <ul>
+                  <li><a href="https://github.com/Rit1kk/NoClass" target="_blank" rel="noopener">Source code on
+                      GitHub</a></li>
+                  <li><a href="app.html#updates">Report a problem</a></li>
+                  <li><a href="#teachers">Staff sign in</a></li>
+                </ul>
+              </div>
+            </div>
+            <div class="ft-bar">
+              <p class="ft-project">Macro Project · MITS-DU Gwalior</p>
+              <p class="ft-disclaimer">
+                <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"
+                  stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+                  <circle cx="12" cy="12" r="9" />
+                  <path d="M12 11v5M12 8h.01" />
+                </svg>
+                Student project. Not an official MITS service.
+              </p>
+              <a class="ft-cta" href="app.html#rooms"><span>Ready when you are</span><b class="ft-go">Open
+                  NoClass</b></a>
+            </div>
+          </div>
+        </div>
+        <div class="ft-mark" aria-hidden="true">NoClass</div>
+      </div>
+    </div>
+  </footer>
 
+  <script type="module" src="home.js"></script>
+  <script type="module" src="landing-class.js"></script>
+  <script type="module" src="teacher-search.js"></script>
+  <script src="landing.js" defer></script>
+  <script type="module" src="landing-classnav.js"></script>
+  <link rel="stylesheet" href="landing-classnav.css">
 </body>
+
 </html>

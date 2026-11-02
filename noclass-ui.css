@@ -1,0 +1,840 @@
+/* ================================================================
+   noclass-ui.css  -  Room finder redesign (both themes)
+   Load it LAST:  style.css, sidebar.css, noclass-dark.css, noclass-light.css, noclass-ui.css
+   Undo: remove the <link>. Nothing else is modified.
+   ================================================================ */
+
+/* ---- tokens (use the palette from the theme files; add status colours) ---- */
+html[data-theme="dark"] {
+  --free: #6FCF97;
+  --busy: #E0B26A;
+  --free-bg: rgba(111, 207, 151, .12);
+  --busy-bg: rgba(224, 178, 106, .14);
+  --surf: #1B1918;
+  --surf-2: #131211;
+  --tile: #232120;
+  --seg-on: #34302E;
+  --glass: rgba(30, 28, 27, .78);
+  --pill-shadow: 0 10px 28px -14px rgba(0, 0, 0, .7);
+}
+
+html[data-theme="light"] {
+  --free: #237A4B;
+  --busy: #8A5A0A;
+  --free-bg: rgba(35, 122, 75, .10);
+  --busy-bg: rgba(138, 90, 10, .10);
+  --surf: #FFFFFF;
+  --surf-2: #F0EBE7;
+  --tile: #FAF7F4;
+  --seg-on: #FFFFFF;
+  --glass: rgba(255, 255, 255, .82);
+  --pill-shadow: 0 10px 28px -16px rgba(29, 25, 24, .35);
+}
+
+/* ---- 1. date + time: one floating pill ---- */
+html[data-theme] .whenbar {
+  background: transparent;
+  border: 0;
+  pointer-events: none;
+  -webkit-backdrop-filter: none;
+  backdrop-filter: none;
+}
+
+html[data-theme] .when-inner {
+  align-items: center;
+  padding-top: 14px;
+  padding-bottom: 6px;
+}
+
+html[data-theme] .when-text {
+  display: none;
+}
+
+.when-pill {
+  pointer-events: auto;
+  display: inline-flex;
+  align-items: center;
+  gap: 2px;
+  padding: 5px;
+  border-radius: 999px;
+  background: var(--glass);
+  border: 1px solid var(--hair);
+  -webkit-backdrop-filter: blur(18px) saturate(140%);
+  backdrop-filter: blur(18px) saturate(140%);
+  box-shadow: var(--pill-shadow);
+}
+
+.when-step {
+  width: 32px;
+  height: 32px;
+  display: grid;
+  place-items: center;
+  border: 0;
+  border-radius: 50%;
+  background: transparent;
+  color: var(--ink-soft);
+  cursor: pointer;
+  transition: background .15s ease, color .15s ease, transform .15s ease;
+}
+
+.when-step:hover {
+  background: var(--hair);
+  color: var(--ink);
+}
+
+.when-step:active {
+  transform: scale(.9);
+}
+
+.when-chip {
+  position: relative;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  height: 32px;
+  padding: 0 8px;
+  border-radius: 999px;
+  cursor: pointer;
+  white-space: nowrap;
+  font-size: 14px;
+  font-weight: 500;
+  color: var(--ink);
+  font-variant-numeric: tabular-nums;
+  transition: background .15s ease;
+}
+
+.when-chip:hover {
+  background: var(--hair);
+}
+
+.when-chip:focus-within {
+  box-shadow: 0 0 0 2px var(--accent);
+}
+
+html[data-theme] .whenbar .when-chip input,
+html[data-theme] .whenbar .when-chip input:hover,
+html[data-theme] .whenbar .when-chip input:focus {
+  position: absolute;
+  inset: 0;
+  width: 100%;
+  height: 100%;
+  padding: 0;
+  margin: 0;
+  opacity: 0;
+  cursor: pointer;
+  border: 0;
+  box-shadow: none;
+  background: transparent;
+  outline: none;
+}
+
+.when-sep {
+  width: 1px;
+  height: 18px;
+  margin: 0 4px;
+  background: var(--hair-strong);
+}
+
+.when-now {
+  height: 32px;
+  padding: 0 16px;
+  margin-left: 4px;
+  border: 0;
+  border-radius: 999px;
+  background: var(--accent);
+  color: var(--on-accent, #111);
+  font-size: 13px;
+  font-weight: 600;
+  cursor: pointer;
+  transition: background .15s ease, transform .15s ease;
+}
+
+.when-now:hover {
+  background: var(--accent-hi);
+}
+
+.when-now:active {
+  transform: scale(.95);
+}
+
+/* ---- 2. hero: lighter, no divider ---- */
+html[data-theme] .hero {
+  padding: 26px 0 18px;
+}
+
+html[data-theme] .hero-title {
+  font-size: clamp(30px, 4vw, 42px);
+}
+
+html[data-theme] .hero-sub {
+  margin-top: 8px;
+  font-size: 15px;
+}
+
+html[data-theme] .hero-stat {
+  min-width: 0;
+  padding-left: 0;
+  border-left: 0;
+}
+
+html[data-theme] .stat-number {
+  font-size: clamp(52px, 7vw, 72px);
+}
+
+/* ---- 3. panel, search, segmented filter ---- */
+html[data-theme] .panel {
+  background: var(--surf);
+  border-radius: 28px;
+  box-shadow: none;
+}
+
+.info-btn {
+  width: 32px;
+  height: 32px;
+  display: grid;
+  place-items: center;
+  border-radius: 50%;
+  cursor: pointer;
+  border: 1px solid var(--hair-strong);
+  background: transparent;
+  color: var(--ink-soft);
+  transition: background .15s ease, color .15s ease;
+}
+
+.info-btn:hover,
+.info-btn[aria-expanded="true"] {
+  background: var(--surf-2);
+  color: var(--ink);
+}
+
+html[data-theme] .panel-note {
+  max-width: none;
+  margin: 0 0 12px;
+  padding: 12px 14px;
+  border-radius: 14px;
+  background: var(--surf-2);
+  font-size: 13px;
+  line-height: 1.5;
+}
+
+.panel-note[hidden] {
+  display: none;
+}
+
+html[data-theme] .room-search {
+  height: 44px;
+  padding: 0 18px;
+  border-radius: 999px;
+}
+
+html[data-theme] .room-filters {
+  flex-wrap: nowrap;
+  gap: 2px;
+  padding: 4px;
+  border-radius: 999px;
+  background: var(--surf-2);
+  border: 1px solid var(--hair);
+}
+
+html[data-theme] .room-filter {
+  height: 34px;
+  padding: 0 16px;
+  border: 0;
+  border-radius: 999px;
+  background: transparent;
+  color: var(--ink-soft);
+  font-size: 13px;
+  font-weight: 500;
+}
+
+html[data-theme] .room-filter:hover {
+  color: var(--ink);
+  border: 0;
+}
+
+html[data-theme] .room-filter[aria-pressed="true"] {
+  background: var(--seg-on);
+  color: var(--ink);
+  border: 0;
+  box-shadow: 0 1px 3px rgba(0, 0, 0, .18);
+}
+
+/* ---- 4. room tiles: quiet, expandable ---- */
+html[data-theme] .room-cards {
+  grid-template-columns: repeat(auto-fill, minmax(min(100%, 210px), 1fr));
+  gap: 12px;
+  align-items: start;
+}
+
+.room-group {
+  grid-column: 1 / -1;
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  margin: 14px 2px 0;
+  font-size: 13px;
+  font-weight: 500;
+  color: var(--ink-soft);
+}
+
+.room-group:first-child {
+  margin-top: 0;
+}
+
+.room-group span {
+  padding: 1px 8px;
+  border-radius: 999px;
+  background: var(--surf-2);
+  font-size: 12px;
+}
+
+html[data-theme] .room-tile,
+html[data-theme] .room-tile.is-free,
+html[data-theme] .room-tile.is-busy {
+  display: block;
+  padding: 0;
+  gap: 0;
+  min-height: 0;
+  overflow: hidden;
+  background: var(--tile);
+  border: 1px solid var(--hair);
+  border-radius: 22px;
+  box-shadow: none;
+  transition: transform .22s cubic-bezier(.2, .8, .2, 1), border-color .2s ease;
+}
+
+html[data-theme] .room-tile:hover,
+html[data-theme] .room-tile.is-free:hover {
+  transform: translateY(-2px);
+  border-color: var(--hair-strong);
+  box-shadow: none;
+}
+
+html[data-theme] .room-tile.is-open {
+  border-color: var(--hair-strong);
+}
+
+.tile-head {
+  width: 100%;
+  display: block;
+  padding: 16px 18px;
+  border: 0;
+  background: transparent;
+  color: var(--ink);
+  font: inherit;
+  text-align: left;
+  cursor: pointer;
+}
+
+.tile-head:focus-visible {
+  outline: 2px solid var(--accent);
+  outline-offset: -3px;
+  border-radius: 22px;
+}
+
+.tile-top {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 8px;
+}
+
+.room-title-wrap {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  min-width: 0;
+}
+
+html[data-theme] .room-title {
+  font-family: var(--sans);
+  font-size: 18px;
+  font-weight: 600;
+  letter-spacing: -.01em;
+}
+
+html[data-theme] .tag-lab {
+  margin: 0;
+  padding: 2px 8px;
+  border-radius: 999px;
+  font-family: var(--sans);
+  font-size: 11px;
+  letter-spacing: 0;
+  text-transform: none;
+}
+
+.tile-right {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  color: var(--ink-soft);
+}
+
+.tile-dot {
+  width: 7px;
+  height: 7px;
+  border-radius: 50%;
+  background: var(--accent);
+}
+
+.tile-chev {
+  transition: transform .3s cubic-bezier(.2, .8, .2, 1);
+}
+
+.room-tile.is-open .tile-chev {
+  transform: rotate(180deg);
+}
+
+.tile-state {
+  display: flex;
+  align-items: center;
+  gap: 7px;
+  margin-top: 16px;
+  font-size: 14px;
+  font-weight: 500;
+}
+
+.tile-state .status-dot {
+  width: 8px;
+  height: 8px;
+  background: var(--free);
+}
+
+.is-busy .tile-state .status-dot {
+  background: var(--busy);
+}
+
+.tile-sub {
+  margin-top: 2px;
+  font-size: 13px;
+  color: var(--ink-soft);
+  font-variant-numeric: tabular-nums;
+}
+
+.tile-more {
+  display: grid;
+  grid-template-rows: 0fr;
+  visibility: hidden;
+  transition: grid-template-rows .32s cubic-bezier(.2, .8, .2, 1), visibility 0s .32s;
+}
+
+.room-tile.is-open .tile-more {
+  grid-template-rows: 1fr;
+  visibility: visible;
+  transition-delay: 0s;
+}
+
+.tile-more-inner {
+  min-height: 0;
+  overflow: hidden;
+}
+
+.tile-body {
+  display: grid;
+  gap: 14px;
+  margin: 0 18px;
+  padding: 14px 0 16px;
+  border-top: 1px solid var(--hair);
+}
+
+.tile-block {
+  display: grid;
+  gap: 3px;
+}
+
+.tile-k {
+  font-size: 12px;
+  color: var(--ink-soft);
+}
+
+.tile-body .tile-subject {
+  font-size: 14px;
+  font-weight: 600;
+}
+
+.tile-body .tile-teacher,
+.tile-body .tile-meta {
+  margin: 0;
+  font-size: 12px;
+}
+
+.tile-chips {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 6px;
+}
+
+.chip {
+  padding: 4px 9px;
+  border-radius: 999px;
+  background: var(--surf-2);
+  color: var(--ink-soft);
+  font-size: 12px;
+  font-variant-numeric: tabular-nums;
+}
+
+.chip.is-now {
+  background: var(--busy-bg);
+  color: var(--busy);
+}
+
+html[data-theme] .tile-note {
+  border-radius: 14px;
+}
+
+.tile-actions {
+  display: flex;
+  justify-content: flex-end;
+}
+
+html[data-theme] .tile-report {
+  padding: 7px 13px;
+  border: 1px solid var(--hair-strong);
+  border-radius: 999px;
+  font-size: 12px;
+}
+
+@keyframes tileIn {
+  from {
+    opacity: 0;
+    transform: translateY(10px);
+  }
+
+  to {
+    opacity: 1;
+    transform: none;
+  }
+}
+
+.room-cards.anim .room-tile {
+  animation: tileIn .45s cubic-bezier(.2, .8, .2, 1) backwards;
+  animation-delay: calc(min(var(--i, 0), 14) * 28ms);
+}
+
+/* ---- 5. day view ---- */
+html[data-theme] .g-row {
+  height: 36px;
+}
+
+html[data-theme] .g-label {
+  background: var(--surf);
+  font-family: var(--sans);
+  font-weight: 500;
+}
+
+html[data-theme] .g-bar {
+  top: 7px;
+  bottom: 7px;
+  border-radius: 999px;
+}
+
+html[data-theme] .g-now {
+  width: 2px;
+  box-shadow: none;
+}
+
+.grid-more {
+  display: flex;
+  justify-content: center;
+  margin-top: 14px;
+}
+
+.grid-toggle {
+  padding: 9px 18px;
+  border: 1px solid var(--hair-strong);
+  border-radius: 999px;
+  background: transparent;
+  color: var(--ink-soft);
+  font-size: 13px;
+  font-weight: 500;
+  cursor: pointer;
+  transition: background .15s ease, color .15s ease;
+}
+
+.grid-toggle:hover {
+  background: var(--surf-2);
+  color: var(--ink);
+}
+
+/* ---- 6. phone ---- */
+@media (max-width: 900px) {
+  html[data-theme] .when-inner {
+    padding: 10px 16px 4px;
+  }
+
+  .when-pill {
+    width: 100%;
+  }
+
+  .when-chip {
+    flex: 1;
+  }
+
+  .when-chip.is-time {
+    flex: .8;
+  }
+
+  .when-sep {
+    display: none;
+  }
+
+  html[data-theme] .room-cards {
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+    gap: 10px;
+  }
+
+  .tile-head {
+    padding: 14px;
+  }
+
+  .tile-body {
+    margin: 0 14px;
+  }
+}
+
+@media (max-width: 420px) {
+  html[data-theme] .room-cards {
+    grid-template-columns: minmax(0, 1fr);
+  }
+
+  html[data-theme] .room-filters {
+    width: 100%;
+  }
+
+  html[data-theme] .room-filter {
+    flex: 1;
+    padding: 0 8px;
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .room-cards.anim .room-tile {
+    animation: none;
+  }
+
+  .tile-more,
+  .tile-chev,
+  html[data-theme] .room-tile {
+    transition: none;
+  }
+}
+
+.when-step svg,
+.info-btn svg {
+  width: 16px;
+  height: 16px;
+}
+
+/* ================================================================
+   TEACHER SEARCH (same language as the room tiles)
+   ================================================================ */
+html[data-theme] .page-head {
+  padding: 26px 0 18px;
+}
+
+html[data-theme] .page-title {
+  font-size: clamp(30px, 4vw, 42px);
+}
+
+html[data-theme] .page-sub {
+  margin-top: 8px;
+  font-size: 15px;
+}
+
+html[data-theme] .search-row {
+  max-width: 640px;
+  margin-bottom: 20px;
+}
+
+.t-search {
+  flex: 1;
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  height: 52px;
+  padding: 0 6px 0 18px;
+  border-radius: 999px;
+  background: var(--surf);
+  border: 1px solid var(--hair-strong);
+  transition: border-color .18s ease, box-shadow .18s ease;
+}
+
+.t-search:focus-within {
+  border-color: var(--accent);
+  box-shadow: 0 0 0 4px rgba(224, 123, 91, .16);
+}
+
+.t-search>svg {
+  width: 18px;
+  height: 18px;
+  flex: none;
+  color: var(--ink-soft);
+}
+
+html[data-theme] .t-search .input,
+html[data-theme] .t-search .input:hover,
+html[data-theme] .t-search .input:focus {
+  flex: 1;
+  min-width: 0;
+  height: 100%;
+  padding: 0;
+  border: 0;
+  border-radius: 0;
+  background: transparent;
+  box-shadow: none;
+  outline: none;
+  font-size: 16px;
+}
+
+.t-go {
+  width: 40px;
+  height: 40px;
+  flex: none;
+  display: grid;
+  place-items: center;
+  border: 0;
+  border-radius: 50%;
+  background: var(--accent);
+  color: var(--on-accent, #111);
+  cursor: pointer;
+  transition: background .15s ease, transform .15s ease;
+}
+
+.t-go svg {
+  width: 18px;
+  height: 18px;
+}
+
+.t-go:hover {
+  background: var(--accent-hi);
+}
+
+.t-go:active {
+  transform: scale(.94);
+}
+
+html[data-theme] .results-label {
+  min-height: 0;
+  margin: 4px 2px 12px;
+  font-family: var(--sans);
+  font-size: 13px;
+  letter-spacing: 0;
+  text-transform: none;
+  color: var(--ink-soft);
+}
+
+html[data-theme] .teacher-list {
+  border-top: 0;
+}
+
+html[data-theme] .teacher-list.room-cards {
+  grid-template-columns: repeat(auto-fill, minmax(min(100%, 300px), 1fr));
+}
+
+.teacher-list .empty {
+  grid-column: 1 / -1;
+  padding: 44px 0;
+  text-align: center;
+}
+
+.t-who {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  min-width: 0;
+}
+
+.t-avatar {
+  width: 40px;
+  height: 40px;
+  flex: none;
+  display: grid;
+  place-items: center;
+  border-radius: 50%;
+  background: var(--surf-2);
+  color: var(--ink-soft);
+  font-size: 13px;
+  font-weight: 600;
+}
+
+.t-id {
+  display: grid;
+  gap: 3px;
+  min-width: 0;
+}
+
+.t-name {
+  font-size: 16px;
+  font-weight: 600;
+  letter-spacing: -.01em;
+  overflow-wrap: anywhere;
+}
+
+.t-code {
+  justify-self: start;
+  padding: 1px 8px;
+  border-radius: 999px;
+  background: var(--surf-2);
+  color: var(--ink-soft);
+  font-size: 11px;
+  font-weight: 500;
+}
+
+.is-none .tile-state .status-dot {
+  background: var(--ink-soft);
+}
+
+.t-sched {
+  display: grid;
+  gap: 8px;
+}
+
+.t-slot {
+  display: grid;
+  grid-template-columns: auto 1fr;
+  gap: 12px;
+  padding: 10px 12px;
+  border-radius: 14px;
+  background: var(--surf-2);
+}
+
+.t-slot.is-now {
+  background: var(--busy-bg);
+}
+
+.t-time {
+  font-size: 12px;
+  font-weight: 500;
+  color: var(--ink-soft);
+  font-variant-numeric: tabular-nums;
+  white-space: nowrap;
+  padding-top: 1px;
+}
+
+.t-slot.is-now .t-time {
+  color: var(--busy);
+}
+
+.t-what {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: 2px 8px;
+  font-size: 13px;
+  min-width: 0;
+}
+
+.t-what b {
+  font-weight: 600;
+}
+
+.t-what>span:not(.tag-lab) {
+  flex-basis: 100%;
+  color: var(--ink-soft);
+}
+
+.t-what small {
+  flex-basis: 100%;
+  font-size: 12px;
+  color: var(--ink-soft);
+}
